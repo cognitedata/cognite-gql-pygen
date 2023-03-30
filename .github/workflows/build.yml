@@ -3,7 +3,7 @@ name: build
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
 
 env:
   PYTHON_VERSION: '3.10'
