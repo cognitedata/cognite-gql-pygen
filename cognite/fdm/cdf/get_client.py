@@ -86,5 +86,3 @@ def get_client_config(config: Optional[CogniteConfig] = None) -> ClientConfig:
 def get_cognite_client() -> CogniteClient:
     client_config = get_client_config()
     return CogniteClient(client_config)
-
-

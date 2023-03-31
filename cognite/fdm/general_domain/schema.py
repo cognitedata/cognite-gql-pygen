@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from datetime import datetime
 from typing import Dict, Generic, List, Optional, Type, TypeVar, Union, cast
 
 import strawberry
@@ -9,7 +8,6 @@ from strawberry.schema.config import StrawberryConfig
 
 from cognite.fdm.general_domain.domain_model import DomainModel
 from cognite.fdm.misc import to_snake
-
 
 DomainModelT = TypeVar("DomainModelT", bound=DomainModel)
 
