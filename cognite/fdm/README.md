@@ -182,7 +182,7 @@ Drawbacks and Limitations:
  * Better alternative to `config.yaml`.
  * Add support for retrieving items via graphql endpoint.
  * Expand unit test coverage
- * Enable use on Windows (currently Bash scripts make this complicated, see 
+ * Enable use on Windows (currently Bash scripts make this complicated, see
    [Issue 9](https://github.com/cognitedata/cognite-gql-pygen/issues/9)).
  * Lots of TODOs in the code
 

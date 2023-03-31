@@ -40,7 +40,7 @@ class CogniteConfig(BaseSettings):
         return f"{self.authority_host_uri}/{self.tenant_id}"
 
     @validator("client_name", always=True)
-    def replace_none_with_user(cls, value):  # noqa: N805
+    def replace_none_with_user(cls, value):
         return getpass.getuser() if value is None else value
 
 
