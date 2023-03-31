@@ -88,8 +88,3 @@ def get_cognite_client() -> CogniteClient:
     return CogniteClient(client_config)
 
 
-if __name__ == "__main__":
-    from pprint import pprint
-
-    c = get_cognite_client()
-    pprint([t.name for t in c.time_series.list(data_set_external_ids="src:entsoe", limit=8)])  # noqa

@@ -112,8 +112,7 @@ class DomainClient(Generic[DomainModelT]):
                 f"Mixed domain models not supported in DomainClient.create! Got: {','.join(str(t) for t in types)}."
             )
         domain_model_api = self.get_api_for_item(items[0])
-        created_items = domain_model_api.create(items, ext_id_prefix=ext_id_prefix)
-        return created_items
+        return domain_model_api.create(items, ext_id_prefix=ext_id_prefix)
 
     def delete(self, items: Iterable[DomainModelT], delete_related_items: bool = False):
         """

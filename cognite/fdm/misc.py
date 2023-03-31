@@ -10,9 +10,7 @@ def to_camel(string: str) -> str:
 def to_pascal(string: str) -> str:
     """Convert snake_case_name to PascalCaseName."""
     camel = to_camel(string)
-    if not camel:
-        return ""
-    return f"{camel[0].upper()}{camel[1:]}"
+    return f"{camel[0].upper()}{camel[1:]}" if camel else ""
 
 
 def to_snake(string: str) -> str:

@@ -329,8 +329,7 @@ class NodesAPI(DataModelStorageAPI):
             "sources": [self._payload_view_source(view)],
             "items": [self._payload_item(view.space, ext_id) for ext_id in _ext_ids],
         }
-        nodes = self._parse(self._post_to_endpoint(payload, "/byids"))
-        return nodes
+        return self._parse(self._post_to_endpoint(payload, "/byids"))
 
     def create(self, view: View, nodes: Iterable[Node]) -> None:
         _nodes = list(nodes)
