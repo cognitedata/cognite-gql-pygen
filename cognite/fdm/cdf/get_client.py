@@ -8,7 +8,7 @@ from cognite.client import ClientConfig, CogniteClient
 from cognite.client.credentials import OAuthClientCredentials, OAuthInteractive
 from pydantic import BaseSettings, validator
 
-from cognite.fdm.config import CONFIG, PWD
+from cognite.fdm.config import CONFIG
 
 
 class CogniteConfig(BaseSettings):
@@ -25,11 +25,7 @@ class CogniteConfig(BaseSettings):
     client_name: str = ""
     authority_host_uri: str = "https://login.microsoftonline.com"
     port: int = 53000
-    cache_filename: str = "cdf.cache"
-
-    @property
-    def cache_filepath(self) -> Path:
-        return PWD / self.cache_filename
+    token_cache_path: Optional[Path] = None
 
     @property
     def base_url(self) -> str:
@@ -71,7 +67,7 @@ def get_client_config(config: Optional[CogniteConfig] = None) -> ClientConfig:
             client_id=config.client_id,
             scopes=config.scopes,
             redirect_port=config.port,
-            token_cache_path=config.cache_filepath,
+            token_cache_path=config.token_cache_path,  # type: ignore
         )
     else:
         raise ValueError("Missing authentication details for CDF")
