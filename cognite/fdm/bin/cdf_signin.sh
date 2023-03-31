@@ -16,5 +16,4 @@ else
   SECRET_OR_DEVICE_CODE="--client-secret='$CLIENT_SECRET'"
 fi
 
-#echo cdf signin "$PROJECT" --tenant="$TENANT_ID" --cluster="$CDF_CLUSTER" --client-id="$CLIENT_ID" "$SECRET_OR_DEVICE_CODE"
 exec cdf signin "$PROJECT" --tenant="$TENANT_ID" --cluster="$CDF_CLUSTER" --client-id="$CLIENT_ID" "$SECRET_OR_DEVICE_CODE"
