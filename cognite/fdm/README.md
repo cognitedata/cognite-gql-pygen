@@ -128,7 +128,7 @@ Execute `fdm schema publish`. This will upload the schema to CDF / FDM.
 
 ### Manipulate Items
 
-See `_main()` in [examples/cinematography_domain/client.py](../../examples/cinematography_domain/client.py) for a simple
+See in [examples/cinematography_domain/__main__.py](../../examples/cinematography_domain/__main__.py) for a simple
 usage example.
 
 A few general notes:
