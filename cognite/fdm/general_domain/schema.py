@@ -11,12 +11,6 @@ from cognite.fdm.general_domain.domain_model import DomainModel
 from cognite.fdm.misc import to_snake
 
 
-def datapoints_dict_to_list(data: Dict[datetime, float]) -> List[dict]:
-    if isinstance(data, dict):
-        points = [{"timestamp": key.isoformat(), "value": value} for key, value in data.items()]
-    return points
-
-
 DomainModelT = TypeVar("DomainModelT", bound=DomainModel)
 
 
