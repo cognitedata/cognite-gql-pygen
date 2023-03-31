@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-cd "${0%/*}/../.."
 
 . fdm/bin/_functions.sh "$1"
 
