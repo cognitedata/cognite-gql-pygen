@@ -77,7 +77,6 @@ class Node(DataModelBase):
         self.properties = {self.space: {view.externalId: props}}
 
     @validator("properties", pre=True)
-    @classmethod
     def discard_view_version_in_props(cls, value: dict) -> dict:
         """
         The API endpoints `retrieve` and `list` return nodes with props nested under "{view.externalID}/{view.version}"

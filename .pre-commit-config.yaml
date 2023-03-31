@@ -27,11 +27,6 @@ repos:
     hooks:
       - id: flake8
         exclude: ^scripts/
-        args:
-         - |
-           --per-file-ignores=
-             cognite/fdm/*:N815,F401,T201,T203
-             examples/cinematography_domain/*:T201,T203
         additional_dependencies:
           - flake8-bugbear
           - flake8-print
