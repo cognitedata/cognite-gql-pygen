@@ -14,7 +14,7 @@ cat <<'EOF' > "$SCHEMA_FILE"
 
 EOF
 
-# skip initial lines which define schema{query:ShopRun}, CDF doesn't understand it:
+# skip initial lines which define schema{query:MyRootModel}, CDF doesn't understand it:
 SKIP_LINES=5
 
 python -m "$SCHEMA_MODULE" | tail -n +$SKIP_LINES >> "$SCHEMA_FILE"
