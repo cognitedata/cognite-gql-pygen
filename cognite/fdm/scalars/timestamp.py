@@ -73,7 +73,11 @@ class _Timestamp(str):
 
     @classmethod
     def __modify_schema__(cls, field_schema):
-        logger.warning(f"modify schema: {field_schema}")
+        field_schema["description"] = (
+            "String in the format 'YYYY-MM-DDTHH:MM:SS[.millis][Z|time zone]' with optional milliseconds having"
+            " precision of 1-3 decimal digits and optional timezone with format ±HH:MM, ±HHMM, ±HH or Z, where Z"
+            " represents UTC, Year must be between 0001 and 9999."
+        )
 
     @classmethod
     def validate(cls, value: TimestampParsable) -> _Timestamp:

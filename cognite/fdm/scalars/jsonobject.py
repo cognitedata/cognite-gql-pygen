@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 from typing import TYPE_CHECKING, Annotated, Any, Dict
 
@@ -23,10 +24,11 @@ class _JSONObject(dict):
 
     @classmethod
     def __modify_schema__(cls, field_schema):
-        logger.warning(f"modify schema: {field_schema}")
+        field_schema["description"] = "JSON-serializable Python dict."
 
     @classmethod
-    def validate(cls, value: Dict[str, Any]) -> JSONObject:
+    def validate(cls, value: Dict[str, Any]) -> _JSONObject:
+        json.dumps(value)
         return cls(value)
 
     def __repr__(self) -> str:
