@@ -51,7 +51,7 @@ def _main() -> None:
 
     client = get_cine_client()
 
-    _delete_data(client)
+    # _delete_data(client)
 
     persons = client.person.list()
     if not persons:
