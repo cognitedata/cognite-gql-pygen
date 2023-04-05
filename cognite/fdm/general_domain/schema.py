@@ -57,9 +57,22 @@ class Schema(Generic[DomainModelT]):
     def register_type(
         self, lowercase_type_name: Optional[Union[str, Type[DomainModelT]]] = None, root_type: bool = False
     ):
-        """Class decorator for schema types."""
+        """
+        Class decorator for schema types.
+
+        This decorator enables us to use Pydantic models as if Strawberry supported Pydantic models as first-class
+        objects.
+        There is a pending issue for this, but might be awhile before it's resolved:
+        https://github.com/strawberry-graphql/strawberry/issues/2181
+
+        Note: We are still using the Strawberry & Pydantic according to how it is documented in
+        https://strawberry.rocks/docs/integrations/pydantic , only with parts of it being dynamic instead of explicit.
+        Specifically:
+         - Strawberry type classes are dynamically generated here
+        """
 
         def _register_type(cls: Type[DomainModelT]) -> Type[DomainModelT]:
+            """Collect a DomainModel for later registration (see `_do_register`)."""
             if not issubclass(cls, DomainModel):
                 raise ValueError(
                     f"Classes used with @register_type must inherit from DomainModel, this one does not: {cls}",
@@ -85,56 +98,74 @@ class Schema(Generic[DomainModelT]):
         return _register_type
 
     def _do_register(self, name: str, cls: Type[DomainModelT]) -> None:
-        # Register type with strawberry schema
+        """Actually register a DomainModel with Strawberry."""
+
+        # this method could be called recursively, so avoid duplicate work:
         if name in self._processed_names:
             return
         self._processed_names.append(name)
 
+        # all field names on our DomainModel:
         field_names = [key for key in cls.__fields__ if key not in {"externalId"}]
 
+        # find any custom scalar fields (e.g: Timestamp, JSONObject), they need special consideration:
         scalar_fields = {}
         for field_name in field_names:
             field = cls.__fields__[field_name]
             field_type = field.annotation
+            # find out if there is a custom scalar in this field's annotation:
             while type_args := get_args(field_type):
                 field_type = type_args[0]
             type_name = field_type.__name__
+            # if there is, make a corresponding strawberry scalar (only once), and
             if type_name in scalars.__all__:
                 scalar_name = f"{type_name}Scalar"
                 if scalar_name not in self._scalar_names:
                     self._scalar_names.append(scalar_name)
                     globals().update({scalar_name: scalar(field_type)})
+                    # ^ strawberry will look for the scalar in the current global scope (as if it was imported)
                 scalar_fields[field_name] = cls.__annotations__[field_name].replace(type_name, scalar_name)
 
+        # dynamically create a strawberry type class:
         cls_dict = {}
         if scalar_fields:
             cls_dict["__annotations__"] = scalar_fields
             for field_name in scalar_fields:
                 field_names.remove(field_name)
+        strawberry_type = type(cls.__name__, (), cls_dict)
 
+        # pass the class to strawberry type decorator:
         try:
-            strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
-                type(cls.__name__, (), cls_dict),
+            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
+                strawberry_type,
             )
         except UnregisteredTypeException:
             # Order matters when using `strawberry.experimental.pydantic.type` (unlike `strawberry.type`).
-            # For reasons unknown.
-            # So when types are out of order, just run one more `close()` to work on other types, then
+            # It's a trap! https://github.com/strawberry-graphql/strawberry/issues/769
+            # So when types are out of order, just run one more `_close()` to work on other types, then
             # try again when it returns. List of names in `self._processed_names` guards against duplicates.
-            self.close()
-            strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
-                type(cls.__name__, (), cls_dict),
+            self._close()
+            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
+                strawberry_type,
             )
 
+        # keep a reference to the schema "root":
         if self._root_type_cls == cls:
-            self._root_type = strawberry_type
+            self._root_type = registered_strawberry_type
+
+    def close(self):
+        """
+        Process all registered types.
+        Call this after all DomainModel classes have been decorated with self.register_type.
+        """
+        self._update_forward_refs()
+        self._close()
 
     def _update_forward_refs(self):
         """Resolve pydantic forward references."""
         for klass in self.types_map.values():
             klass.update_forward_refs()
 
-    def close(self):
-        self._update_forward_refs()
+    def _close(self):
         for name, cls in self.types_map.items():
             self._do_register(name, cls)
