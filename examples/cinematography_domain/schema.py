@@ -5,7 +5,6 @@ This is a minimal example schema.
 from __future__ import annotations
 
 import logging
-import sys
 from typing import List, Optional
 
 from cognite.fdm.custom_types import JSONObject, Timestamp
@@ -37,4 +36,4 @@ cine_schema.close()
 
 # Render the schema to stdout when executed directly:
 if __name__ == "__main__":
-    sys.stdout.write(cine_schema.as_str())
+    print(cine_schema.as_str())
