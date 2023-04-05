@@ -4,6 +4,7 @@ import logging
 import re
 from contextlib import suppress
 from datetime import datetime
+from math import floor
 from typing import TYPE_CHECKING, Annotated, TypeVar
 
 logger = logging.getLogger(__name__)
@@ -24,8 +25,9 @@ class _Timestamp(str):
     must be between 0001 and 9999.
 
     Value must conform to this format to be accepted.
-    One exception to this is that additional decimal digits of the second will be accepted but the value will be rounded
-    to 3 decimal digits, e.g. 2023-04-05T11:12:13.4567 will be converted to 2023-04-05T11:12:13.457.
+    One exception to this is that additional decimal digits of the second will be accepted but the value will be cut
+    (floored) to 3 decimal digits, e.g. 2023-04-05T11:12:13.4567 will be converted to 2023-04-05T11:12:13.456.
+    We do flooring rather than rounding to avoid moving the value into the future.
 
     This class is a custom Pydantic type:
 
@@ -49,7 +51,7 @@ class _Timestamp(str):
     >>> Foo(bar="2023-04-05T06:07:08.123456")
     Foo(bar=Timestamp('2023-04-05T06:07:08.123'))
     >>> Foo(bar="2023-04-05T06:07:08.1256Z")
-    Foo(bar=Timestamp('2023-04-05T06:07:08.126Z'))
+    Foo(bar=Timestamp('2023-04-05T06:07:08.125Z'))
     >>> Foo(bar="2023-04-05T06:07:08.12Z")
     Foo(bar=Timestamp('2023-04-05T06:07:08.12Z'))
 
@@ -66,9 +68,9 @@ class _Timestamp(str):
     >>> Foo(bar=datetime(2023, 4, 5, 6, 7, 8, 123456))
     Foo(bar=Timestamp('2023-04-05T06:07:08.123'))
     >>> Foo(bar=datetime(2023, 4, 5, 6, 7, 8, 345678))
-    Foo(bar=Timestamp('2023-04-05T06:07:08.346'))
+    Foo(bar=Timestamp('2023-04-05T06:07:08.345'))
     >>> Foo(bar=datetime(2023, 4, 5, 6, 7, 8, 345678, timezone(timedelta(hours=-5), 'EST')))
-    Foo(bar=Timestamp('2023-04-05T06:07:08.346-05:00'))
+    Foo(bar=Timestamp('2023-04-05T06:07:08.345-05:00'))
     """
 
     @classmethod
@@ -118,7 +120,7 @@ class _Timestamp(str):
 
         # Milliseconds need some special treatment:
         microseconds = datetime_value.microsecond
-        milliseconds = round(microseconds / 1000)
+        milliseconds = floor(microseconds / 1000)
         try:
             microseconds_str = re.findall(r".{19}\.(\d+).*", str_value)[0]
         except IndexError:
