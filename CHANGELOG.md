@@ -19,7 +19,7 @@ Support for `Timestamp` and `JSONObject` types.
 
 ## [0.1.1]
 
-Added `dm_clients` package.
+Added `cdf_dm` package.
 
 ## [0.1.0]
 

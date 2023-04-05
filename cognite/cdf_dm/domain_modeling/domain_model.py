@@ -6,7 +6,7 @@ from typing import Dict, Optional, Type, get_args
 import strawberry
 from pydantic import Extra
 
-from cognite.dm_clients.cdf.data_classes_dm_v3 import DataModelBase
+from cognite.cdf_dm.cdf.data_classes_dm_v3 import DataModelBase
 
 __all__ = [
     "DomainModel",

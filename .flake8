@@ -4,7 +4,7 @@ per-file-ignores =
     # Ignore F401 "Module imported but unused" only for __init__ files
     cognite/*/__init__.py:F401
     # N815: "variable ... should not be mixedCase", we wanna follow the naming in FDM
-    cognite/dm_clients/*:N815
+    cognite/cdf_dm/*:N815
     # T201,T203: "print found" and "pprint" found
     examples/cinematography_domain/*:T201,T203
 

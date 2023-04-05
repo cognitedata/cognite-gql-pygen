@@ -6,8 +6,8 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, Generic, Iterable, List, Optional, Tuple, Type, TypeVar, get_args
 from uuid import uuid4
 
-from cognite.dm_clients.cdf.client_dm_v3 import EdgesAPI, NodesAPI
-from cognite.dm_clients.cdf.data_classes_dm_v3 import Node, View
+from cognite.cdf_dm.cdf.client_dm_v3 import EdgesAPI, NodesAPI
+from cognite.cdf_dm.cdf.data_classes_dm_v3 import Node, View
 
 from .domain_client import DomainClient
 from .domain_model import DomainModel

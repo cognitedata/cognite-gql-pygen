@@ -1,7 +1,7 @@
 import pytest
 
-from cognite.dm_clients.cdf.client_dm_v3 import DataModelStorageAPI
-from tests.test_dm_clients.test_cdf._utils import *  # noqa
+from cognite.cdf_dm.cdf.client_dm_v3 import DataModelStorageAPI
+from tests.test_cdf_dm.test_cdf._utils import *  # noqa
 
 
 @pytest.fixture

@@ -6,7 +6,7 @@ from typing import List, cast
 from cinematography_domain.client import CineClient, get_cine_client
 from cinematography_domain.schema import Movie, Person
 
-from cognite.dm_clients.custom_types import JSONObject, Timestamp
+from cognite.cdf_dm.custom_types import JSONObject, Timestamp
 
 
 def _delete_data(client: CineClient) -> None:
@@ -47,7 +47,7 @@ def _upload_data(client: CineClient) -> None:
 
 def _main() -> None:
     logging.basicConfig()
-    logging.getLogger("cognite.dm_clients").setLevel("DEBUG")
+    logging.getLogger("cognite.cdf_dm").setLevel("DEBUG")
 
     client = get_cine_client()
 

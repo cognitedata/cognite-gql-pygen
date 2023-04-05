@@ -16,7 +16,7 @@ Uploading some data into a DM data model was cumbersome when interacting directl
 
 ## Concepts
 
-`dm_clients` package takes Python code as the "source of truth". So a normal workflow is like this:
+`cdf_dm` package takes Python code as the "source of truth". So a normal workflow is like this:
 
 1. Define use case models in Python (in a "schema" module).
 2. Use CLI from this package to generate GraphQL schema.
@@ -37,24 +37,24 @@ With the (future) arrival of GraphQL mutations in DM, this package might become 
 
 ## Glossary
 
- * DM - Data Modeling, data service by Cognite. For our purposes, it is "the API".
- * `dm_client` - this package
+ * DM - CDF Data Modeling, data service by Cognite. For our purposes, it is "the API".
+ * `cdf_dm` - this package
  * Space - DM object, a high-level container for all things in DM. Like a namespace. Subordinate only to CDF project.
  * Data Model - Often used interchangeably with "Schema", a set of Domain Models (a.k.a. schema types) that together
    help model a use case.
  * Domain - knowledge domain, similar to use case (though we can have multiple use cases that use a single Domain,
    like several clients in a very similar business)
- * Domain Model - a `dm_clients` term - often used interchangeably with "schema type" - a single class of objects with
+ * Domain Model - a `cdf_dm` term - often used interchangeably with "schema type" - a single class of objects with
    all its fields, e.g. "pump" or "generator".
- * Item - a `dm_clients` term - an instance of a Domain Model, e.g. generator "G42".
+ * Item - a `cdf_dm` term - an instance of a Domain Model, e.g. generator "G42".
  * Instance - a DM term - a data entity, either a Node or an Edge (see below).
  * Node - a DM term - a data entity, can contain multiple fields.
  * Edge - a DM term - a data entity that connects two nodes (directionally).
- * DomainAPI - a `dm_clients` term - a top-level Python class for a Domain. It provides easy access to various
+ * DomainAPI - a `cdf_dm` term - a top-level Python class for a Domain. It provides easy access to various
    DomainModelAPIs (see below).
- * DomainModelAPI - a `dm_clients` term - a Python class (or class instance) which provides management over a single
+ * DomainModelAPI - a `cdf_dm` term - a Python class (or class instance) which provides management over a single
    DomainModel, e.g. create new pumps, delete a pump, list all pumps...
- * DomainClient - a `dm_clients` term - a Python class (or class instance) which serves as a namespace for easy access
+ * DomainClient - a `cdf_dm` term - a Python class (or class instance) which serves as a namespace for easy access
    to all DomainModelAPIs in a use case.
 
 
@@ -63,11 +63,11 @@ With the (future) arrival of GraphQL mutations in DM, this package might become 
 1. `pip install cognite-gql-pygen`
 2. Create a `config.yaml` file (exact name not important), see [config.example.yaml](./config.example.yaml).
    - > TODO: Then need for `config.yaml` should be removed...
-3. Define `DM_CONFIG` env variable to contain the full path to `config.yaml` file.
+3. Define `CDF_DM_CONFIG` env variable to contain the full path to `config.yaml` file.
 4. Test if it works:
    ```
    $ python
-   >>> from cognite.dm_clients.general_domain.domain_client import get_empty_domain_client
+   >>> from cognite.cdf_dm.domain_modeling.domain_client import get_empty_domain_client
    >>> c = get_empty_domain_client()
    >>> c._client.spaces.list()
    [Space(space="...
@@ -111,16 +111,16 @@ Required features of a schema module:
 
 GraphQL schema file is committed to this repo, so this step is not required, but it is here for completeness.
 
-Execute `dm_clients schema render`. This will update the schema file (defined in `config.yaml`) according to Python code in
+Execute `cdf_dm schema render`. This will update the schema file (defined in `config.yaml`) according to Python code in
 the schema module.
 
 
 ##### Step 2: Upload Schema
 
-Authenticate against CDF by running `dm_clients signin`. The authentication data is cached on the filesystem
+Authenticate against CDF by running `cdf_dm signin`. The authentication data is cached on the filesystem
 locally, so this is needed rarely (every few? days).
 
-Execute `dm_clients schema publish`. This will upload the schema to CDF / DM.
+Execute `cdf_dm schema publish`. This will upload the schema to CDF / DM.
 
 > Note: Depending on the changes made to the schema, you might be required to update the schema version in config.yaml.
 > This happens when the changes are not backwards-compatible, e.g. deleting a field.
@@ -164,7 +164,7 @@ Pros:
 Drawbacks and Limitations:
 
  * Not all features of DM are supported.
-   * `dm_clients` is only tested to work within a single space.
+   * `cdf_dm` is only tested to work within a single space.
      * Across-space relationships are in principle possible, but some work would be needed to implement it.
    * Nodes (and consequently items) work with properties from only one view.
      * No hard barriers to implementing this in the future.
@@ -203,10 +203,10 @@ See [TODO](#todo) above.
 ### Project Structure
 
 Important modules:
- * `cognite/dm_clients/cdf`
+ * `cognite/cdf_dm/cdf`
     * general-purpose DM client (nothing specific to PowerOps in here)
     * inspired by https://github.com/cognitedata/tech-demo-powerops/ :]
- * `cognite/dm_clients/general_domain`
+ * `cognite/cdf_dm/domain_modeling`
     * base classes for use cases, "boilerplate"
  * `examples/cinematography_domain`
     * a toy example use case with minimal code

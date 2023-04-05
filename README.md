@@ -14,9 +14,9 @@ project may also become deprecated if the experimentation turns out to be a dead
 
 ### DM Non-GraphQl API
 
-This package also contains `cognite.dm_clients` which is a simplified wrapper for non-GraphQL endpoints in DM API v3.
+This package also contains `cognite.cdf_dm` which is a simplified wrapper for non-GraphQL endpoints in DM API v3.
 
-See [dm_clients/README.md](./cognite/dm_clients/README.md) for more details.
+See [cdf_dm/README.md](cognite/cdf_dm/README.md) for more details.
 
 ## Installation
 

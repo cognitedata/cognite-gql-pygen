@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 PWD = Path().absolute()
 
-CONFIG_FILE = os.environ.get("DM_CONFIG", PWD / "config.yaml")
+CONFIG_FILE = os.environ.get("CDF_DM_CONFIG", PWD / "config.yaml")
 
 __all__ = [
     "CONFIG",

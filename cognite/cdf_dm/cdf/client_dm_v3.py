@@ -13,16 +13,16 @@ from pydantic import parse_obj_as
 from requests import Response
 from retry import retry
 
-from cognite.dm_clients.cdf.data_classes_dm_v3 import Container, DataModel, Edge, Node, Space, View
-from cognite.dm_clients.cdf.get_client import get_client_config
-from cognite.dm_clients.config import CONFIG
+from cognite.cdf_dm.cdf.data_classes_dm_v3 import Container, DataModel, Edge, Node, Space, View
+from cognite.cdf_dm.cdf.get_client import get_client_config
+from cognite.cdf_dm.config import CONFIG
 
 logger = logging.getLogger(__name__)
 
 
 HttpVerbT = Literal["GET", "PUT", "DELETE", "POST"]
 
-_MAX_TRIES = int(CONFIG["dm"].get("max_tries", 15))
+_MAX_TRIES = int(CONFIG["cdf_dm"].get("max_tries", 15))
 
 
 class DataModelStorageAPI(APIClient):

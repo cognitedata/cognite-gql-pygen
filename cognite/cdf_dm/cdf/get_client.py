@@ -8,7 +8,7 @@ from cognite.client import ClientConfig, CogniteClient
 from cognite.client.credentials import OAuthClientCredentials, OAuthInteractive
 from pydantic import BaseSettings, validator
 
-from cognite.dm_clients.config import CONFIG
+from cognite.cdf_dm.config import CONFIG
 
 
 class CogniteConfig(BaseSettings):

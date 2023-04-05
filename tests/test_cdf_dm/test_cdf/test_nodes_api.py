@@ -1,8 +1,8 @@
 import pytest
 
-from cognite.dm_clients.cdf.client_dm_v3 import NodesAPI
-from cognite.dm_clients.cdf.data_classes_dm_v3 import Node
-from tests.test_dm_clients.test_cdf._utils import *  # noqa
+from cognite.cdf_dm.cdf.client_dm_v3 import NodesAPI
+from cognite.cdf_dm.cdf.data_classes_dm_v3 import Node
+from tests.test_cdf_dm.test_cdf._utils import *  # noqa
 
 
 @pytest.fixture

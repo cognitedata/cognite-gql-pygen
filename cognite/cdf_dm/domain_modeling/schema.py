@@ -7,8 +7,8 @@ import strawberry
 from strawberry.experimental.pydantic import UnregisteredTypeException
 from strawberry.schema.config import StrawberryConfig
 
-from cognite.dm_clients.general_domain.domain_model import DomainModel
-from cognite.dm_clients.misc import to_snake
+from cognite.cdf_dm.domain_modeling.domain_model import DomainModel
+from cognite.cdf_dm.misc import to_snake
 
 from ..custom_types import SCALARS
 from ..custom_types._scalars import *  # noqa

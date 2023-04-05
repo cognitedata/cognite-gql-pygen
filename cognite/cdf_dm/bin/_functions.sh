@@ -10,4 +10,4 @@ trim_quotes () {
   cat | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//"
 }
 
-CONFIG="${DM_CONFIG:-${1:-config.yaml}}"
+CONFIG="${CDF_DM_CONFIG:-${1:-config.yaml}}"
