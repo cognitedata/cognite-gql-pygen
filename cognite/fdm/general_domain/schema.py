@@ -4,13 +4,14 @@ import logging
 from typing import Dict, Generic, List, Optional, Type, TypeVar, Union, cast, get_args
 
 import strawberry
-from strawberry import scalar
 from strawberry.experimental.pydantic import UnregisteredTypeException
 from strawberry.schema.config import StrawberryConfig
 
-from cognite.fdm import scalars
 from cognite.fdm.general_domain.domain_model import DomainModel
 from cognite.fdm.misc import to_snake
+
+from ..custom_types import SCALARS
+from ..custom_types._scalars import *  # noqa
 
 DomainModelT = TypeVar("DomainModelT", bound=DomainModel)
 
@@ -24,7 +25,6 @@ class Schema(Generic[DomainModelT]):
         self._root_type: Optional[type] = None
         self._root_type_cls: Optional[Type[DomainModelT]] = None
         self._processed_names: List[str] = []
-        self._scalar_names: List[str] = []
 
     def _strawberry_schema(self) -> strawberry.Schema:
         if self._root_type is None:
@@ -116,14 +116,11 @@ class Schema(Generic[DomainModelT]):
             # find out if there is a custom scalar in this field's annotation:
             while type_args := get_args(field_type):
                 field_type = type_args[0]
+
             type_name = field_type.__name__
+            scalar_name = f"{type_name}Scalar"
             # if there is, make a corresponding strawberry scalar (only once), and
-            if type_name in scalars.__all__:
-                scalar_name = f"{type_name}Scalar"
-                if scalar_name not in self._scalar_names:
-                    self._scalar_names.append(scalar_name)
-                    globals().update({scalar_name: scalar(field_type)})
-                    # ^ strawberry will look for the scalar in the current global scope (as if it was imported)
+            if scalar_name in SCALARS:
                 scalar_fields[field_name] = cls.__annotations__[field_name].replace(type_name, scalar_name)
 
         # dynamically create a strawberry type class:

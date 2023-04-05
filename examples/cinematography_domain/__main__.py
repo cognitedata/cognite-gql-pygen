@@ -6,7 +6,7 @@ from typing import List, cast
 from cinematography_domain.client import CineClient, get_cine_client
 from cinematography_domain.schema import Movie, Person
 
-from cognite.fdm.scalars import JSONObject, Timestamp
+from cognite.fdm.custom_types import JSONObject, Timestamp
 
 
 def _delete_data(client: CineClient) -> None:
@@ -51,7 +51,7 @@ def _main() -> None:
 
     client = get_cine_client()
 
-    # _delete_data(client)
+    _delete_data(client)
 
     persons = client.person.list()
     if not persons:
