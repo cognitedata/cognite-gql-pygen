@@ -21,7 +21,7 @@ known_third_party = []
 
 [tool.poetry.scripts]
 cogpygen = "cognite.gqlpygen.main:main"
-fdm = "cognite.fdm.main:main"
+dm_clients = "cognite.dm_clients.main:main"
 
 
 [tool.poetry.dependencies]
