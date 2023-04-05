@@ -119,8 +119,7 @@ class _Timestamp(str):
             str_value = value.isoformat()
 
         # Milliseconds need some special treatment:
-        microseconds = datetime_value.microsecond
-        milliseconds = floor(microseconds / 1000)
+        milliseconds = floor(datetime_value.microsecond / 1000)
         try:
             microseconds_str = re.findall(r".{19}\.(\d+).*", str_value)[0]
         except IndexError:
