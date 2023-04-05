@@ -127,27 +127,20 @@ class Schema(Generic[DomainModelT]):
                 scalar_fields[field_name] = cls.__annotations__[field_name].replace(type_name, scalar_name)
 
         # dynamically create a strawberry type class:
-        cls_dict = {}
-        if scalar_fields:
-            cls_dict["__annotations__"] = scalar_fields
-            for field_name in scalar_fields:
-                field_names.remove(field_name)
+        cls_dict = {"__annotations__": {field_name: strawberry.auto for field_name in field_names}}
+        cls_dict["__annotations__"].update(scalar_fields)
         strawberry_type = type(cls.__name__, (), cls_dict)
 
         # pass the class to strawberry type decorator:
         try:
-            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
-                strawberry_type,
-            )
+            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls)(strawberry_type)
         except UnregisteredTypeException:
             # Order matters when using `strawberry.experimental.pydantic.type` (unlike `strawberry.type`).
             # It's a trap! https://github.com/strawberry-graphql/strawberry/issues/769
             # So when types are out of order, just run one more `_close()` to work on other types, then
             # try again when it returns. List of names in `self._processed_names` guards against duplicates.
             self._close()
-            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls, fields=field_names)(
-                strawberry_type,
-            )
+            registered_strawberry_type = strawberry.experimental.pydantic.type(model=cls)(strawberry_type)
 
         # keep a reference to the schema "root":
         if self._root_type_cls == cls:
