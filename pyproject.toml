@@ -48,6 +48,9 @@ pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+
 [build-system]
 requires = ["poetry>=1.0"]
 build-backend = "poetry.masonry.api"
