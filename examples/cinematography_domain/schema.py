@@ -8,6 +8,7 @@ import logging
 import sys
 from typing import List, Optional
 
+from cognite.fdm.custom_types import JSONObject, Timestamp
 from cognite.dm_clients.custom_types import JSONObject, Timestamp
 from cognite.dm_clients.domain_modeling import DomainModel, Schema
 

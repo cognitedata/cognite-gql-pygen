@@ -1,2 +1,17 @@
 # THIS FILE IS AUTO-GENERATED!
 # Use dm_clients/bin/schema_render.sh to update it.
+
+
+type Movie {
+  title: String!
+  release: Timestamp
+  director: Person
+  actors: [Person]
+  producers: [Person]
+  meta: JSONObject
+  data: JSONObject
+}
+
+type Person {
+  name: String!
+}
