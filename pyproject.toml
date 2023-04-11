@@ -55,20 +55,20 @@ addopts = "--doctest-modules"
 plugins = [
   "pydantic.mypy"
 ]
-#follow_imports = "silent"
-#warn_redundant_casts = true
-#warn_unused_ignores = true
+explicit_package_bases = true
+follow_imports = "normal"
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
 #disallow_any_generics = true
-#check_untyped_defs = true
 #no_implicit_reexport = true
-## for strict mypy: (this is the tricky one :-))
 #disallow_untyped_defs = true
-#
-#[tool.pydantic-mypy]
-#init_forbid_extra = true
-#init_typed = true
-#warn_required_dynamic_aliases = true
-#warn_untyped_fields = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
 
 [build-system]
 requires = ["poetry>=1.0"]

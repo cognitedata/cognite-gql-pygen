@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING, Annotated, Any, Dict
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class _JSONObject(dict):
+class JSONObject(dict):
     """
     Python dict that can be serialized into JSON format.
     Note: DM supports lists as well, but this implementation does not!
@@ -27,19 +27,9 @@ class _JSONObject(dict):
         field_schema["description"] = "JSON-serializable Python dict."
 
     @classmethod
-    def validate(cls, value: Dict[str, Any]) -> _JSONObject:
+    def validate(cls, value: Dict[str, Any]) -> JSONObject:
         json.dumps(value)
         return cls(value)
 
     def __repr__(self) -> str:
         return f"JSONObject({super().__repr__()})"
-
-
-# Keeping mypy and strawberry and pydantic happy:
-
-_JSONObject.__name__ = "JSONObject"
-
-if TYPE_CHECKING:
-    JSONObject = Annotated[dict, _JSONObject]
-else:
-    JSONObject = _JSONObject

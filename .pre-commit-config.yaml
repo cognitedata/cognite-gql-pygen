@@ -93,5 +93,3 @@ repos:
           - pytest
         language_version: python3.10
         entry: bash -c 'MYPYPATH=.:examples mypy "$@"' --
-        args:
-          - --explicit-package-bases

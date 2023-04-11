@@ -21,7 +21,7 @@ def _upload_data(client: CineClient) -> None:
         Movie(
             externalId="movie1",
             title="Casablanca",
-            release="1942-11-26T11:12:13Z",
+            release="1942-11-26T11:12:13Z",  # type: ignore[arg-type]
             director=Person(externalId="person1", name="Michael Curtiz"),
             actors=[
                 Person(externalId="person2", name="Humphrey Bogart"),

@@ -91,7 +91,7 @@ class Schema(Generic[DomainModelT]):
 
         if isinstance(lowercase_type_name, type):
             # decorator was used without attributes, so lowercase_name is actually a DomainModel class
-            cls_ = cast(Type[DomainModelT], lowercase_type_name)
+            cls_ = lowercase_type_name
             lowercase_type_name = to_snake(cls_.__name__)
             return _register_type(cls_)
 
