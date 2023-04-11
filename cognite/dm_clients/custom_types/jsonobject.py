@@ -15,7 +15,7 @@ __all__ = [
 class _JSONObject(dict):
     """
     Python dict that can be serialized into JSON format.
-    Note: FDM supports lists as well, but this implementation does not!
+    Note: DM supports lists as well, but this implementation does not!
     """
 
     @classmethod

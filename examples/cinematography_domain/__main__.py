@@ -6,7 +6,7 @@ from typing import List, cast
 from cinematography_domain.client import CineClient, get_cine_client
 from cinematography_domain.schema import Movie, Person
 
-from cognite.fdm.custom_types import JSONObject, Timestamp
+from cognite.dm_clients.custom_types import JSONObject, Timestamp
 
 
 def _delete_data(client: CineClient) -> None:
@@ -47,7 +47,7 @@ def _upload_data(client: CineClient) -> None:
 
 def _main() -> None:
     logging.basicConfig()
-    logging.getLogger("cognite.fdm").setLevel("DEBUG")
+    logging.getLogger("cognite.dm_clients").setLevel("DEBUG")
 
     client = get_cine_client()
 
@@ -55,7 +55,7 @@ def _main() -> None:
 
     persons = client.person.list()
     if not persons:
-        print("(first time only) Populating FDM with data.\n")
+        print("(first time only) Populating DM with data.\n")
         _upload_data(client)
 
     movies = client.movie.list()
@@ -69,7 +69,7 @@ def _main() -> None:
             print(f"  {actor.name}")
         print()
 
-    # * in FDM we cannot do `actors: [Person!]` nor `[Person!]!`, we can only do `[Person]`
+    # * in DM we cannot do `actors: [Person!]` nor `[Person!]!`, we can only do `[Person]`
 
 
 if __name__ == "__main__":
