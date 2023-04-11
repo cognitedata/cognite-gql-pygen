@@ -27,7 +27,7 @@ def _upload_data(client: CineClient) -> None:
                 Person(externalId="person2", name="Humphrey Bogart"),
                 Person(externalId="person3", name="Ingrid Bergman"),
             ],
-            meta={"run_time": 102},
+            meta={"run_time": 102},  # type: ignore[arg-type]
         ),
         Movie(
             externalId="movie2",

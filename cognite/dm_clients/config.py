@@ -17,7 +17,7 @@ __all__ = [
 ]
 
 test_config = {
-    "dm": {
+    "dm_clients": {
         "max_tries": 1,
     }
 }
