@@ -6,7 +6,7 @@ readme = "README.md"
 authors = ["Cognite <support@cognite.com>"]
 
 packages = [{ include="cognite", from="." }]
-exclude=["cognite/dm_clients/*.toml"]
+exclude = ["cognite/dm_clients/*.toml"]
 
 [tool.black]
 line-length = 120
