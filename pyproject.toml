@@ -40,6 +40,8 @@ cachelib = "^0.10.2"
 retry = "^0.9.2"
 loguru = "^0.6.0"
 dynaconf = "^3.1.12"
+graphql-core = ">=3.2"
+Jinja2 = ">=3.1"
 
 [tool.poetry.dev-dependencies]
 twine = "*"
