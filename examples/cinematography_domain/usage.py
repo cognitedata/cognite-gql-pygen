@@ -3,10 +3,9 @@ from __future__ import annotations
 import logging
 from typing import List, cast
 
-from cinematography_domain.client import CineClient, get_cine_client
-from cinematography_domain.schema import Movie, Person
-
 from cognite.dm_clients.custom_types import JSONObject, Timestamp
+from examples.cinematography_domain.client import CineClient, get_cine_client
+from examples.cinematography_domain.schema import Movie, Person
 
 
 def _delete_data(client: CineClient) -> None:
