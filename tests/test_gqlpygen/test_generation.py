@@ -25,7 +25,7 @@ def generate_client_sdk_from_graphql_data():
         input_schema,
         "CineClient",
         "cine_schema",
-        {"client": client, "schema": schema},
+        {"client.py": client, "schema.py": schema},
         id="Cinematography example",
     )
 

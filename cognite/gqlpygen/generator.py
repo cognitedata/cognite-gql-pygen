@@ -42,7 +42,7 @@ def to_client_sdk(schema_raw: str, client_name: str, schema_name: str) -> dict[s
         models=ordered,
     )
 
-    return {"client": _clean_rendered_template(client_py), "schema": _clean_rendered_template(schema_py)}
+    return {"client.py": _clean_rendered_template(client_py), "schema.py": _clean_rendered_template(schema_py)}
 
 
 def _clean_rendered_template(rendered_template: str) -> str:

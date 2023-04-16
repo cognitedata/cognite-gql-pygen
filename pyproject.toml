@@ -21,7 +21,7 @@ skip_glob = '^((?!py$).)*$'    # this makes sort all Python files
 known_third_party = []
 
 [tool.poetry.scripts]
-cogpygen = "cognite.gqlpygen.main:main"
+pygen = "cognite.gqlpygen.main:main"
 dm_clients = "cognite.dm_clients.main:main"
 
 
