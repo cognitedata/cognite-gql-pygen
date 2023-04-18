@@ -3,9 +3,9 @@ from __future__ import annotations
 import logging
 from typing import List, cast
 
+from cinematography_domain.client import CineClient, get_cine_client
+from cinematography_domain.schema import Movie, Person
 from cognite.dm_clients.custom_types import JSONObject, Timestamp
-from examples.cinematography_domain.client import CineClient, get_cine_client
-from examples.cinematography_domain.schema import Movie, Person
 
 
 def _delete_data(client: CineClient) -> None:
@@ -20,13 +20,13 @@ def _upload_data(client: CineClient) -> None:
         Movie(
             externalId="movie1",
             title="Casablanca",
-            release="1942-11-26T11:12:13Z",
+            release="1942-11-26T11:12:13Z",  # type: ignore[arg-type]
             director=Person(externalId="person1", name="Michael Curtiz"),
             actors=[
                 Person(externalId="person2", name="Humphrey Bogart"),
                 Person(externalId="person3", name="Ingrid Bergman"),
             ],
-            meta={"run_time": 102},
+            meta={"run_time": 102},  # type: ignore[arg-type]
         ),
         Movie(
             externalId="movie2",
