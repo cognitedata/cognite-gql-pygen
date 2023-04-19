@@ -69,7 +69,7 @@ it consists of four files.
 
 * `schema.graphql` The schema defined in GraphQL language.
 * `schema.py` The schema defined in `pydantic` classes.
-* `client.py` Which sets ut the client for the data model.
+* `client.py` Which sets up the client for the data model.
 * `usage.py` Demonstrates the usage of the client.
 
 
