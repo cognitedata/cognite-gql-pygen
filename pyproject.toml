@@ -22,7 +22,7 @@ known_third_party = []
 src_paths = [".", "examples"]
 
 [tool.poetry.scripts]
-pygen = "cognite.gqlpygen.main:main"
+dm = "cognite.gqlpygen.main:main"
 dm_clients = "cognite.dm_clients.main:main"
 
 

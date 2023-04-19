@@ -44,7 +44,7 @@ the API and the convenience method get_[client_name]_client().
 To generate from a `.graphql` schema you use the following command.
 
 ```bash
-pygen topython 'PATH_TO_SCHEMA' --name "Cine"
+dm topython 'PATH_TO_SCHEMA' --name "Cine"
 ```
 
 This will create a `schema.py` and a `client.py` file in the directory you are running the command.
@@ -52,7 +52,7 @@ This will create a `schema.py` and a `client.py` file in the directory you are r
 To generate from `schema.py` use the following command
 
 ```bash
-pygen togql 'PATH_TO_FILE'
+dm togql 'PATH_TO_FILE'
 ```
 
 This will create the `schema.graphql` and a `client.py` file in the directory you are running the command.
