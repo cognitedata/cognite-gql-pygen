@@ -1,6 +1,6 @@
 import pytest
 
-from cognite.dm_clients.domain_modeling import Schema, DomainModel
+from cognite.dm_clients.domain_modeling import DomainModel, Schema
 
 
 @pytest.fixture
@@ -13,8 +13,7 @@ def test_schema_1(schema: Schema):
 
     attrs = [getattr(schema_1, attr) for attr in dir(schema_1)]
     clss = [
-        attr for attr in attrs
-        if isinstance(attr, type) and issubclass(attr, DomainModel) and attr is not DomainModel
+        attr for attr in attrs if isinstance(attr, type) and issubclass(attr, DomainModel) and attr is not DomainModel
     ]
     for cls in clss:
         if getattr(cls, "__root_model__", None):
@@ -25,4 +24,3 @@ def test_schema_1(schema: Schema):
     schema.close()
     qgl_str = schema.as_str()
     assert qgl_str.strip() == schema_1.expected.strip()
-
