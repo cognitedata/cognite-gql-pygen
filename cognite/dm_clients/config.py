@@ -35,6 +35,7 @@ class SettingsDMClientsT(TypedDict):
 
 
 class SettingsLocalT(TypedDict):
+    prefix: str
     schema_file: str
     schema_module: str
 

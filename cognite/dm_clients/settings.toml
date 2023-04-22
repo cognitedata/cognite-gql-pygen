@@ -12,5 +12,6 @@
   max_tries = 5
 
 [local]
+  prefix="your"  # YourClient, your_schema, get_your_client(), etc.
   schema_file = "path/to/your_domain/schema.graphql"
   schema_module = "python.path.to.your_domain.schema"
