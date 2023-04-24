@@ -98,7 +98,7 @@ class DomainClient(Generic[DomainModelT]):
                 return domain_model_api
         raise ValueError(f"No DomainModelAPI registered for {domain_model}")
 
-    def create(self, items: Iterable[DomainModelT], ext_id_prefix: str = "") -> List[DomainModelT]:
+    def apply(self, items: Iterable[DomainModelT], ext_id_prefix: str = "") -> List[DomainModelT]:
         """
         Given a list of nodes, figure out which DomainModelAPI to call and do it.
         Used by DomainModelAPI instances to create nested instances (without needing figure out the nested type).

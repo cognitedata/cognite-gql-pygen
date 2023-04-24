@@ -32,7 +32,7 @@ $ pip install cognite-gql-pygen
 ## Usage
 
 The goal of the package is to have representations of all the types in a given data model with API calls to *.list()*,
-*.create()*, *.delete()*, and *.retrieve()* individuals for each type.
+*.apply()*, *.delete()*, and *.retrieve()* individuals for each type.
 
 ![image](https://user-images.githubusercontent.com/60234212/232307167-0379c4ec-3b7a-4978-bfe7-d059e917e63f.png)
 
