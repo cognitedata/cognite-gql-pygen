@@ -13,6 +13,13 @@ Changes are grouped as follows
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
+## [0.2.2] - 24-04-23
+
+### Changed
+
+* Renamed `DomainModelAPI.create` to `DomainModelAPI.apply`, to reflect the usage of the underlying endpoint.
+
+
 ## [0.2.1] - 24-04-23
 
 ### Fixed
