@@ -82,7 +82,7 @@ class DomainModelAPI(Generic[DomainModelT]):
 
         return list(items)
 
-    def create(self, items: Iterable[DomainModelT], ext_id_prefix: str = "") -> List[DomainModelT]:
+    def apply(self, items: Iterable[DomainModelT], ext_id_prefix: str = "") -> List[DomainModelT]:
         """
         Send provided nodes to the API.
         This is a multy-step job:
