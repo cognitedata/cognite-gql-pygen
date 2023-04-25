@@ -4,7 +4,7 @@ Cognite GraphQL Python Generator
 [![GitHub](https://img.shields.io/github/license/cognitedata/cognite-gql-pygen)](https://github.com/cognitedata/cognite-gql-pygen/blob/master/LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-This is the Cognite GraphQL Python Generator, `gqlpyden`. The purpose of this package is to help developers to
+This is the Cognite GraphQL Python Generator, `gqlpygen`. The purpose of this package is to help developers to
 work with Cognite Data Fusion's (CDF) Data Models (DM) in Python.
 
 **[DISCLAIMER!]** This project is in a highly experimental no guarantees are made for consistency between versions. The
@@ -32,9 +32,10 @@ $ pip install cognite-gql-pygen
 ## Usage
 
 The goal of the package is to have representations of all the types in a given data model with API calls to *.list()*,
-*.create()*, *.delete()*, and *.retrieve()* individuals for each type.
+*.apply()*, *.delete()*, and *.retrieve()* individuals for each type.
 
-![image](https://user-images.githubusercontent.com/60234212/232307167-0379c4ec-3b7a-4978-bfe7-d059e917e63f.png)
+![image](https://user-images.githubusercontent.com/60234212/234041823-f72a27e3-6450-4f05-99dc-50e87f762d0f.png)
+
 
 
 You can specify the data models either as a `.graphql` schema or a `pydantic` classes in a `.py` file. Then, you can

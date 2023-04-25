@@ -13,9 +13,23 @@ Changes are grouped as follows
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
-## [0.2.1]
+## [0.3.0] - 24-04-23
 
-Fixed a problem with reading annotations caused by reverse ordering of dataclasses (forward refs).
+### Fixed
+
+* In the CLI, `dm topython` the argument `name` is now a option instead of a positional argument. This matched the
+  documentation in the README.
+
+### Changed
+
+* Renamed `DomainModelAPI.create` to `DomainModelAPI.apply`, to reflect the usage of the underlying endpoint.
+
+
+## [0.2.1] - 24-04-23
+
+### Fixed
+
+* Fixed a problem with reading annotations caused by reverse ordering of dataclasses (forward refs).
 
 
 ## [0.2.0] - 19-04-23
