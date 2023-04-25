@@ -13,6 +13,18 @@ Changes are grouped as follows
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
+## [0.3.1] - 24-04-25
+
+### Changed
+
+* In the CLI, all commands are not under one `dm` tool.
+
+### Removed
+
+* All bash scripts have been removed (under `dm_clinents/bin`).
+* CLI tool `dm_clients` was removed (functions moved to `dm`).
+
+
 ## [0.3.0] - 24-04-23
 
 ### Fixed
