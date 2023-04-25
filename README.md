@@ -58,7 +58,7 @@ dm togql 'PATH_TO_FILE'
 
 This will load the python module and create a `schema.graphql` file in the directory you are running the command.
 
-`PATH_TO_FILE` can be either a path to a `.py` file or a Python dot-notation to a package 
+`PATH_TO_FILE` can be either a path to a `.py` file or a Python dot-notation to a package
 (e.g. `my_project.schema_module` make sure that the package in which case the module must be in Python path).
 
 Note the `schema.py` file must follow a specific structure, see [examples/cinematography_domain](https://github.com/cognitedata/cognite-gql-pygen/blob/main/examples/cinematography_domain/schema.py) for an example.
@@ -80,7 +80,7 @@ it consists of four files.
 ### Settings File
 
 `dm togql` and `dm topython` take their defaults form `settings.toml` if present. See
-[settings.toml](./cognite/dm_clients/settings.toml) for an example, section `[local]` is relevant for `togql` and 
+[settings.toml](./cognite/dm_clients/settings.toml) for an example, section `[local]` is relevant for `togql` and
 `topython` commands.
 
 

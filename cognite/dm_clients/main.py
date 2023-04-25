@@ -3,7 +3,6 @@ import subprocess
 import sys
 from importlib import import_module
 from pathlib import Path
-from typing import Optional
 
 import typer
 
@@ -30,7 +29,7 @@ _schema_name_option = typer.Option("schema", help="Variable name for Schema inst
 
 
 @schema_app.command()
-def render(schema_name: Optional[str] = _schema_name_option):
+def render(schema_name: str = _schema_name_option):
     """
     Writes the GraphQL schema from Python code.
     Takes configuration from config.yaml.
@@ -38,12 +37,12 @@ def render(schema_name: Optional[str] = _schema_name_option):
 
     from cognite.dm_clients.config import settings
 
-    schema_module = import_module(settings.local['schema_module'])
+    schema_module = import_module(settings.local["schema_module"])
 
     try:
         schema = getattr(schema_module, schema_name)
     except AttributeError as exc:
-        msg = "Schema not found. Did you need to set --schema-name option (default is \"schema\")?"
+        msg = 'Schema not found. Did you need to set --schema-name option (default is "schema")?'
         raise ValueError(msg) from exc
 
     sys.stdout.write(schema.as_str())

@@ -1,4 +1,4 @@
-from typing import cast, TypedDict
+from typing import TypedDict, cast
 
 from dynaconf import Dynaconf
 
