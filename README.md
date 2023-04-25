@@ -80,7 +80,8 @@ it consists of four files.
 ### Settings File
 
 `dm togql` and `dm topython` take their defaults form `settings.toml` if present. See
-[settings.toml](./cognite/dm_clients/settings.toml) for an example, section `[local]` is relevant for `dm` CLI tool.
+[settings.toml](./cognite/dm_clients/settings.toml) for an example, section `[local]` is relevant for `togql` and 
+`topython` commands.
 
 
 ### DM Non-GraphQl API

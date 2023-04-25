@@ -50,8 +50,6 @@ With the (future) arrival of GraphQL mutations in DM, this package might become 
  * Instance - a DM term - a data entity, either a Node or an Edge (see below).
  * Node - a DM term - a data entity, can contain multiple fields.
  * Edge - a DM term - a data entity that connects two nodes (directionally).
- * DomainAPI - a `dm_clients` term - a top-level Python class for a Domain. It provides easy access to various
-   DomainModelAPIs (see below).
  * DomainModelAPI - a `dm_clients` term - a Python class (or class instance) which provides management over a single
    DomainModel, e.g. create new pumps, delete a pump, list all pumps...
  * DomainClient - a `dm_clients` term - a Python class (or class instance) which serves as a namespace for easy access
@@ -115,7 +113,8 @@ Required features of a schema module:
 
 #### Upload the schema
 
-> Before proceeding, make sure that `config.yaml` is populated with credentials and configuration.
+> Before proceeding, make sure that `settings.toml` and / or `.secrets.toml` is populated with credentials and 
+> configuration.
 
 
 ##### Step 1: Render Schema
@@ -188,13 +187,9 @@ Drawbacks and Limitations:
 
 ### TODO
 
- * Missing support for custom scalar types (`JSON` and `Timestamp`, others in the future)
-    * priority, in progres
- * Better alternative to `config.yaml`.
  * Add support for retrieving items via graphql endpoint.
  * Expand unit test coverage
- * Enable use on Windows (currently Bash scripts make this complicated, see
-   [Issue 9](https://github.com/cognitedata/cognite-gql-pygen/issues/9)).
+ * Test use on Windows, particularly `dm signin` and `dm upload`
  * Lots of TODOs in the code
 
 
@@ -219,5 +214,7 @@ Important modules:
     * inspired by https://github.com/cognitedata/tech-demo-powerops/ :]
  * `cognite/dm_clients/domain_modeling`
     * base classes for use cases, "boilerplate"
+ * `cognite/dm_clients/custom_types`
+    * support for Cognite-specific GraphQL scalar types (e.g. JSONObject, Timeseries) 
  * `examples/cinematography_domain`
     * a toy example use case with minimal code
