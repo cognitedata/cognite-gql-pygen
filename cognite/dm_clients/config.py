@@ -36,7 +36,7 @@ class SettingsDMClientsT(TypedDict):
 
 class SettingsLocalT(TypedDict):
     prefix: str
-    schema_file: str
+    graphql_schema: str
     schema_module: str
 
 

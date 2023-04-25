@@ -122,16 +122,16 @@ Required features of a schema module:
 
 GraphQL schema file is committed to this repo, so this step is not required, but it is here for completeness.
 
-Execute `dm_clients schema render`. This will update the schema file (defined in `config.yaml`) according to Python code in
+Execute `dm togql`. This will update the schema file (defined in `settings.toml`) according to Python code in
 the schema module.
 
 
 ##### Step 2: Upload Schema
 
-Authenticate against CDF by running `dm_clients signin`. The authentication data is cached on the filesystem
+Authenticate against CDF by running `dm signin`. The authentication data is cached on the filesystem
 locally, so this is needed rarely (every few? days).
 
-Execute `dm_clients schema publish`. This will upload the schema to CDF / DM.
+Execute `dm upload`. This will upload the schema to CDF / DM.
 
 > Note: Depending on the changes made to the schema, you might be required to update the schema version in config.yaml.
 > This happens when the changes are not backwards-compatible, e.g. deleting a field.
