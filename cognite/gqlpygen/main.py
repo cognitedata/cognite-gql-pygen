@@ -64,7 +64,9 @@ def to_python(
 
 @app.command("togql", help="Input a pydantic schema to create .graphql schema")
 def to_gql(
-    schema_module: Path = typer.Argument(_schema_module or ..., help="Pydantic schema to convert. Path to a .py file or Python dot notation "),
+    schema_module: Path = typer.Argument(
+        _schema_module or ..., help="Pydantic schema to convert. Path to a .py file or Python dot notation "
+    ),
     graphql_schema: Path = typer.Option(_graphql_schema or ..., help="File path for the output."),
     prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
 ):
@@ -104,7 +106,9 @@ def signin(
     cdf_cluster: str = typer.Option(_cdf_cluster or ..., help="CDF cluster name."),
     tenant_id: str = typer.Option(_tenant_id or ..., help="AD tenant ID."),
     client_id: str = typer.Option(_client_id or ..., help="AD client ID."),
-    client_secret: str = typer.Option(_client_secret_hidden or None, prompt=True, hide_input=True, help="AD client secret."),
+    client_secret: str = typer.Option(
+        _client_secret_hidden or None, prompt=True, hide_input=True, help="AD client secret."
+    ),
     project: str = typer.Option(_project or ..., help="Name of CDF project."),
 ):
     if client_secret == _client_secret_hidden:

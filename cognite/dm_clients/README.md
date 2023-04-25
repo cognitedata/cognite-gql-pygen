@@ -113,7 +113,7 @@ Required features of a schema module:
 
 #### Upload the schema
 
-> Before proceeding, make sure that `settings.toml` and / or `.secrets.toml` is populated with credentials and 
+> Before proceeding, make sure that `settings.toml` and / or `.secrets.toml` is populated with credentials and
 > configuration.
 
 
@@ -215,6 +215,6 @@ Important modules:
  * `cognite/dm_clients/domain_modeling`
     * base classes for use cases, "boilerplate"
  * `cognite/dm_clients/custom_types`
-    * support for Cognite-specific GraphQL scalar types (e.g. JSONObject, Timeseries) 
+    * support for Cognite-specific GraphQL scalar types (e.g. JSONObject, Timeseries)
  * `examples/cinematography_domain`
     * a toy example use case with minimal code
