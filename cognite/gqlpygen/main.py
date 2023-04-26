@@ -19,9 +19,6 @@ from cognite.gqlpygen.misc import to_client_name, to_schema_name
 app = typer.Typer()
 
 
-_prefix = settings.get("local.prefix", "")
-
-
 def _hide_pw(secret: str, value: Optional[str] = None) -> str:
     """
     Hide secret from value:
@@ -67,7 +64,7 @@ def to_python(
         Path(_graphql_schema).parent if (_graphql_schema := settings.get("local.graphql_schema")) else Path.cwd(),
         help="Directory to write schema.py and client.py to.",
     ),
-    prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
+    prefix: str = typer.Option(settings.get("local.prefix", ""), help="Name prefix for the domain."),
 ):
     schema_raw = graphql_schema.read_text()
     client_name = to_client_name(prefix)
@@ -98,10 +95,10 @@ def to_gql(
         help="Pydantic schema to convert. Path to a .py file or Python dot notation "
     ),
     graphql_schema: Path = typer.Option(settings.get("local.graphql_schema", ...), help="File path for the output."),
-    prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
+    prefix: Optional[str] = typer.Option(settings.get("local.prefix"), help="Name prefix for the domain."),
 ):
     if str(schema_module).endswith(".py"):
-        click.echo(f"Got file {schema_module}, trying to import it...")
+        click.echo(f"Got file '{schema_module}', trying to import it...")
         module_name = schema_module.stem
         spec = importlib.util.spec_from_file_location(module_name, schema_module)
         module = importlib.util.module_from_spec(spec)  # type:ignore[arg-type]
@@ -109,22 +106,22 @@ def to_gql(
         spec.loader.exec_module(module)  # type:ignore[union-attr]
     else:
         module_name = settings.local.get("schema_module", default=schema_module.stem)
-        click.echo(f"Got module {schema_module}, trying to import it...")
+        click.echo(f"Got module '{schema_module}', trying to import it...")
         module = importlib.import_module(module_name)
     click.echo("Import successful")
 
-    if not _prefix:
+    if prefix is None:
         click.echo("Searching for a schema...")
         for schema_name, instance in inspect.getmembers(module):
             if isinstance(instance, Schema):
-                click.echo(f"Found schema {schema_name!r}")
+                click.echo(f"Found schema '{schema_name!r}'")
                 break
         else:
             click.echo("Failed to find schema, exiting..")
             exit(1)
     else:
         schema_name = to_schema_name(prefix)
-        click.echo(f"Got schema name {schema_name}")
+        click.echo(f"Got schema name '{schema_name}'")
         instance = getattr(module, schema_name)
 
     graphql_schema.write_text(instance.as_str())
