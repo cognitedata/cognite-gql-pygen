@@ -131,7 +131,7 @@ def to_gql(
         try:
             instance = getattr(module, schema_name)
         except AttributeError as exc:
-            typer.echo(f"Error: {exc}. Check the --prefix option and 'schema_module' argument.")
+            typer.echo(f"Error: {exc}. Check the --name option and 'schema_module' argument.")
             sys.exit(1)
 
     graphql_schema.write_text(instance.as_str())
