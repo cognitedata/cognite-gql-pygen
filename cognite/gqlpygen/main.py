@@ -130,7 +130,7 @@ def signin(
 ):
     client_secret_none = "None (use device flow)"
     client_secret = settings.get("cognite.client_secret")
-    if not client_secret:
+    if client_secret is None:
         if sys.stdin.isatty():
             client_secret = typer.prompt(
                 f"Client secret",
