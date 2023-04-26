@@ -18,7 +18,6 @@ from cognite.gqlpygen.misc import to_client_name, to_schema_name
 app = typer.Typer()
 
 
-_client_secret = settings.get("cognite.client_secret")
 _prefix = settings.get("local.prefix", "")
 
 
@@ -38,10 +37,6 @@ def _hide_pw(secret: str, value: Optional[str] = None) -> str:
     'Nothing changes.'
     """
     return (secret if value is None else value).replace(secret, f"{secret[:3]}*****..." if secret else "")
-
-
-_client_secret_none = "None (use device flow)"
-_client_secret_hidden = _hide_pw(_client_secret) if _client_secret else ""
 
 
 def _check_cdf_cli() -> None:
@@ -132,16 +127,21 @@ def signin(
     cdf_cluster: str = typer.Option(settings.get("cognite.cdf_cluster", ...), help="CDF cluster name."),
     tenant_id: str = typer.Option(settings.get("cognite.tenant_id", ...), help="AD tenant ID."),
     client_id: str = typer.Option(settings.get("cognite.client_id", ...), help="AD client ID."),
-    client_secret: str = typer.Option(
-        _client_secret_hidden if _client_secret else _client_secret_none,
-        prompt=True,
-        prompt_required=not _client_secret,
-        hide_input=True,
-        help="AD client secret.",
-    ),
     project: str = typer.Option(settings.get("cognite.project", ...), help="Name of CDF project."),
 ):
-    if client_secret == _client_secret_none:
+    client_secret_none = "None (use device flow)"
+    client_secret = settings.get("cognite.client_secret")
+    if not client_secret:
+        if sys.stdin.isatty():
+            client_secret = typer.prompt(
+                f"Client secret",
+                default=client_secret_none,
+                type=str,
+                hide_input=True,
+            )
+        else:
+            client_secret = sys.stdin.readline().rstrip()
+    if client_secret == client_secret_none:
         client_secret = ""
     _check_cdf_cli()
     command = [
