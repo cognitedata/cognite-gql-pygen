@@ -40,17 +40,16 @@ def _hide_pw(secret: str, value: Optional[str] = None) -> str:
 
 
 def _check_cdf_cli() -> None:
-    try:
-        cdf_version = subprocess.check_output(["cdf", "--version"])
-    except FileNotFoundError:
+    cdf_version_proc = subprocess.run("cdf --version", shell=True, capture_output=True)
+    if cdf_version_proc.returncode:
         typer.echo(
-            "Command 'cdf' not found, please see https://docs.cognite.com/cdf/cli/ for installation instructions.",
+            "Error calling 'cdf' command, please see https://docs.cognite.com/cdf/cli/ for installation instructions.",
             err=True,
         )
         sys.exit(1)
 
     min_version = version.Version("2.0.0")
-    installed_version = version.parse(cdf_version.decode().strip())
+    installed_version = version.parse(cdf_version_proc.stdout.decode())
     if installed_version < min_version:
         typer.echo(
             f"Too old version of 'cdf' ({installed_version}), at least {min_version} is needed."
@@ -79,7 +78,7 @@ def to_python(
     for name, content in sdk.items():
         output = output_dir / name
         output.write_text(content)
-        click.echo(f"Wrote file {output.relative_to(Path.cwd())}")
+        click.echo(f"Wrote file '{output.relative_to(Path.cwd())}'")
 
 
 @app.command("togql", help="Input a pydantic schema to create .graphql schema")
@@ -119,7 +118,7 @@ def to_gql(
         instance = getattr(module, schema_name)
 
     graphql_schema.write_text(instance.as_str())
-    click.echo(f"Wrote file {graphql_schema}")
+    click.echo(f"Wrote file '{graphql_schema}'")
 
 
 @app.command("signin", help="Upload a GQL schema to CDF DM data model.")
@@ -154,7 +153,7 @@ def signin(
         (f"--client-secret='{client_secret}'" if client_secret else "--device-code"),
     ]
     typer.echo(f"Executing:\n{_hide_pw(client_secret, ' '.join(command))}")
-    subprocess.call(command)
+    subprocess.run(' '.join(command), shell=True)
 
 
 @app.command("upload", help="Upload a GQL schema to CDF DM data model.")
@@ -181,7 +180,7 @@ def upload(
         f"--version='{schema_version}'",
     ]
     typer.echo(f"Executing:\n{' '.join(command)}")
-    subprocess.call(command)
+    subprocess.run(' '.join(command), shell=True)
 
 
 def main():
