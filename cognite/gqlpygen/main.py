@@ -92,7 +92,7 @@ def check_settings():
 def to_gql(
     schema_module: Path = typer.Argument(
         settings.get("local.schema_module", ...),
-        help="Pydantic schema to convert. Path to a .py file or Python dot notation "
+        help="Pydantic schema to convert. Path to a .py file or Python dot notation ",
     ),
     graphql_schema: Path = typer.Option(settings.get("local.graphql_schema", ...), help="File path for the output."),
     prefix: Optional[str] = typer.Option(settings.get("local.prefix"), help="Name prefix for the domain."),
@@ -122,7 +122,11 @@ def to_gql(
     else:
         schema_name = to_schema_name(prefix)
         click.echo(f"Got schema name '{schema_name}'")
-        instance = getattr(module, schema_name)
+        try:
+            instance = getattr(module, schema_name)
+        except AttributeError as exc:
+            typer.echo(f"Error: {exc}. Check the --prefix option and 'schema_module' argument.")
+            sys.exit(1)
 
     graphql_schema.write_text(instance.as_str())
     click.echo(f"Wrote file '{graphql_schema}'")
