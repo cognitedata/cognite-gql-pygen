@@ -5,6 +5,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 import click
 import typer
@@ -37,11 +38,27 @@ _schema_module = _settings_local.get("schema_module")
 
 _schema_dir = Path(_graphql_schema).parent if _graphql_schema else None
 
+
+def _hide_pw(secret: str, value: Optional[str] = None) -> str:
+    """
+    Hide secret from value:
+
+    >>> _hide_pw("SeCrEt", "Here is my SeCrEt password!")
+    'Here is my SeC*****... password!'
+    >>> _hide_pw("SeCrEtPeRsEcReT")
+    'SeC*****...'
+    >>> _hide_pw("SeCrEt", "No secret here.")
+    'No secret here.'
+    >>> _hide_pw("An", "An edge case.")
+    'An*****... edge case.'
+    >>> _hide_pw("", "Nothing changes.")
+    'Nothing changes.'
+    """
+    return (secret if value is None else value).replace(secret, f"{secret[:3]}*****..." if secret else "")
+
+
 _client_secret_none = "None (use device flow)"
-if _client_secret:
-    _client_secret_hidden = f"{_client_secret[:3]}{'*' * (len(_client_secret) - 3)}"
-else:
-    _client_secret_hidden = _client_secret_none
+_client_secret_hidden = _hide_pw(_client_secret) if _client_secret else ""
 
 
 def _check_cdf_cli() -> None:
@@ -129,19 +146,16 @@ def signin(
     tenant_id: str = typer.Option(_tenant_id or ..., help="AD tenant ID."),
     client_id: str = typer.Option(_client_id or ..., help="AD client ID."),
     client_secret: str = typer.Option(
-        _client_secret_hidden or None, prompt=True, hide_input=True, help="AD client secret."
+        _client_secret_hidden if _client_secret else _client_secret_none,
+        prompt=True,
+        prompt_required=not _client_secret,
+        hide_input=True,
+        help="AD client secret.",
     ),
     project: str = typer.Option(_project or ..., help="Name of CDF project."),
 ):
-    if client_secret == _client_secret_hidden:
-        client_secret = _client_secret
     if client_secret == _client_secret_none:
-        auth_option = "--device-code"
-        auth_option_hidden = None
-    else:
-        auth_option = f"--client-secret='{client_secret}'"
-        auth_option_hidden = f"--client-secret='{client_secret[:3]}{'*' * (len(client_secret) - 3)}'"
-
+        client_secret = ""
     _check_cdf_cli()
     command = [
         "cdf",
@@ -150,12 +164,9 @@ def signin(
         f"--cluster='{cdf_cluster}'",
         f"--tenant='{tenant_id}'",
         f"--client-id='{client_id}'",
-        auth_option,
+        (f"--client-secret='{client_secret}'" if client_secret else "--device-code"),
     ]
-    msg = f"Executing:\n{' '.join(command)}"
-    if auth_option_hidden:
-        msg = msg.replace(auth_option, auth_option_hidden)
-    typer.echo(f"Executing:\n{msg}")
+    typer.echo(f"Executing:\n{_hide_pw(client_secret, ' '.join(command))}")
     subprocess.call(command)
 
 
