@@ -19,24 +19,8 @@ from cognite.gqlpygen.misc import to_client_name, to_schema_name
 app = typer.Typer()
 
 
-_settings_cognite = settings.get("cognite", {})
-_cdf_cluster = _settings_cognite.get("cdf_cluster")
-_tenant_id = _settings_cognite.get("tenant_id")
-_client_id = _settings_cognite.get("client_id")
-_client_secret = _settings_cognite.get("client_secret")
-_project = _settings_cognite.get("project")
-
-_settings_dm_clients = settings.get("dm_clients", {})
-_space = _settings_dm_clients.get("space")
-_datamodel = _settings_dm_clients.get("datamodel")
-_schema_version = _settings_dm_clients.get("schema_version")
-
-_settings_local = settings.get("local", {})
-_prefix = _settings_local.get("prefix", "")
-_graphql_schema = _settings_local.get("graphql_schema")
-_schema_module = _settings_local.get("schema_module")
-
-_schema_dir = Path(_graphql_schema).parent if _graphql_schema else None
+_client_secret = settings.get("cognite.client_secret")
+_prefix = settings.get("local.prefix", "")
 
 
 def _hide_pw(secret: str, value: Optional[str] = None) -> str:
@@ -84,8 +68,11 @@ def _check_cdf_cli() -> None:
 
 @app.command("topython", help="Create pydantic schema and Python DM client from a .graphql schema.")
 def to_python(
-    graphql_schema: Path = typer.Argument(_graphql_schema or ..., help="GraphQL schema to convert"),
-    output_dir: Path = typer.Option(_schema_dir or os.getcwd(), help="Directory to write schema.py and client.py to."),
+    graphql_schema: Path = typer.Argument(settings.get("local.graphql_schema", ...), help="GraphQL schema to convert"),
+    output_dir: Path = typer.Option(
+        Path(_graphql_schema).parent if (_graphql_schema := settings.get("local.graphql_schema")) else Path.cwd(),
+        help="Directory to write schema.py and client.py to.",
+    ),
     prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
 ):
     schema_raw = graphql_schema.read_text()
@@ -104,9 +91,10 @@ def to_python(
 @app.command("togql", help="Input a pydantic schema to create .graphql schema")
 def to_gql(
     schema_module: Path = typer.Argument(
-        _schema_module or ..., help="Pydantic schema to convert. Path to a .py file or Python dot notation "
+        settings.get("local.schema_module", ...),
+        help="Pydantic schema to convert. Path to a .py file or Python dot notation "
     ),
-    graphql_schema: Path = typer.Option(_graphql_schema or ..., help="File path for the output."),
+    graphql_schema: Path = typer.Option(settings.get("local.graphql_schema", ...), help="File path for the output."),
     prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
 ):
     if str(schema_module).endswith(".py"):
@@ -142,9 +130,9 @@ def to_gql(
 
 @app.command("signin", help="Upload a GQL schema to CDF DM data model.")
 def signin(
-    cdf_cluster: str = typer.Option(_cdf_cluster or ..., help="CDF cluster name."),
-    tenant_id: str = typer.Option(_tenant_id or ..., help="AD tenant ID."),
-    client_id: str = typer.Option(_client_id or ..., help="AD client ID."),
+    cdf_cluster: str = typer.Option(settings.get("cognite.cdf_cluster", ...), help="CDF cluster name."),
+    tenant_id: str = typer.Option(settings.get("cognite.tenant_id", ...), help="AD tenant ID."),
+    client_id: str = typer.Option(settings.get("cognite.client_id", ...), help="AD client ID."),
     client_secret: str = typer.Option(
         _client_secret_hidden if _client_secret else _client_secret_none,
         prompt=True,
@@ -152,7 +140,7 @@ def signin(
         hide_input=True,
         help="AD client secret.",
     ),
-    project: str = typer.Option(_project or ..., help="Name of CDF project."),
+    project: str = typer.Option(settings.get("cognite.project", ...), help="Name of CDF project."),
 ):
     if client_secret == _client_secret_none:
         client_secret = ""
@@ -172,10 +160,16 @@ def signin(
 
 @app.command("upload", help="Upload a GQL schema to CDF DM data model.")
 def upload(
-    graphql_schema: Path = typer.Argument(_graphql_schema or ..., help="GraphQL schema to upload."),
-    space: str = typer.Option(_space or ..., help="Space ID in CDF Domain Modeling"),
-    data_model: str = typer.Option(_datamodel or ..., help="ID of Data Model in CDF Domain Modeling"),
-    schema_version: int = typer.Option(_schema_version or ..., help="Version of the schema to app or update."),
+    graphql_schema: Path = typer.Argument(settings.get("local.graphql_schema", ...), help="GraphQL schema to upload."),
+    space: str = typer.Option(settings.get("dm_clients.space", ...), help="Space ID in CDF Domain Modeling"),
+    data_model: str = typer.Option(
+        settings.get("dm_clients.datamodel", ...),
+        help="ID of Data Model in CDF Domain Modeling",
+    ),
+    schema_version: int = typer.Option(
+        settings.get("dm_clients.schema_version", ...),
+        help="Version of the schema to app or update.",
+    ),
 ):
     _check_cdf_cli()
     command = [
