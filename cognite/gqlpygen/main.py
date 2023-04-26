@@ -8,6 +8,7 @@ from pathlib import Path
 
 import click
 import typer
+from packaging import version
 
 from cognite.dm_clients.config import settings
 from cognite.dm_clients.domain_modeling.schema import Schema
@@ -41,6 +42,27 @@ if _client_secret:
     _client_secret_hidden = f"{_client_secret[:3]}{'*' * (len(_client_secret) - 3)}"
 else:
     _client_secret_hidden = _client_secret_none
+
+
+def _check_cdf_cli() -> None:
+    try:
+        cdf_version = subprocess.check_output(["cdf", "--version"])
+    except FileNotFoundError:
+        typer.echo(
+            "Command 'cdf' not found, please see https://docs.cognite.com/cdf/cli/ for installation instructions.",
+            err=True,
+        )
+        sys.exit(1)
+
+    min_version = version.Version("2.0.0")
+    installed_version = version.parse(cdf_version.decode().strip())
+    if installed_version < min_version:
+        typer.echo(
+            f"Too old version of 'cdf' ({installed_version}), at least {min_version} is needed."
+            f" Please see https://docs.cognite.com/cdf/cli/ for installation instructions.",
+            err=True,
+        )
+        sys.exit(1)
 
 
 @app.command("topython", help="Create pydantic schema and Python DM client from a .graphql schema.")
@@ -120,6 +142,7 @@ def signin(
         auth_option = f"--client-secret='{client_secret}'"
         auth_option_hidden = f"--client-secret='{client_secret[:3]}{'*' * (len(client_secret) - 3)}'"
 
+    _check_cdf_cli()
     command = [
         "cdf",
         "signin",
@@ -143,6 +166,7 @@ def upload(
     data_model: str = typer.Option(_datamodel or ..., help="ID of Data Model in CDF Domain Modeling"),
     schema_version: int = typer.Option(_schema_version or ..., help="Version of the schema to app or update."),
 ):
+    _check_cdf_cli()
     command = [
         "cdf",
         "data-models",
