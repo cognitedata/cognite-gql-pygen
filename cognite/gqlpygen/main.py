@@ -1,7 +1,6 @@
 import importlib
 import importlib.util
 import inspect
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -186,7 +185,6 @@ def upload(
 
 
 def main():
-    sys.path.append(os.getcwd())
     app()
 
 
