@@ -114,7 +114,7 @@ def to_gql(
         click.echo("Searching for a schema...")
         for schema_name, instance in inspect.getmembers(module):
             if isinstance(instance, Schema):
-                click.echo(f"Found schema '{schema_name!r}'")
+                click.echo(f"Found schema '{schema_name}'")
                 break
         else:
             click.echo("Failed to find schema, exiting..")
