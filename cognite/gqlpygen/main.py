@@ -8,6 +8,7 @@ from typing import Optional
 
 import click
 import typer
+import yaml
 from packaging import version
 
 from cognite.dm_clients.config import settings
@@ -79,6 +80,15 @@ def to_python(
         output = output_dir / name
         output.write_text(content)
         click.echo(f"Wrote file '{output.relative_to(Path.cwd())}'")
+
+
+@app.command(
+    "settings",
+    help="Display configuration values from settings.toml, .secrets.toml and/or environment variables."
+         " Meant for troubleshooting. Partially hides value of 'client_secret' for security reasons.",
+)
+def check_settings():
+    typer.echo(_hide_pw(settings.get("cognite.client_secret", ""), yaml.safe_dump(settings.as_dict())))
 
 
 @app.command("togql", help="Input a pydantic schema to create .graphql schema")
