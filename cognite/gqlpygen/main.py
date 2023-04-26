@@ -19,7 +19,7 @@ from cognite.gqlpygen.misc import to_client_name, to_schema_name
 app = typer.Typer()
 
 
-_prefix = settings.get("local.prefix", "")
+_name = settings.get("local.name", "")
 
 
 def _hide_pw(secret: str, value: Optional[str] = None) -> str:
@@ -67,11 +67,11 @@ def to_python(
         Path(_graphql_schema).parent if (_graphql_schema := settings.get("local.graphql_schema")) else Path.cwd(),
         help="Directory to write schema.py and client.py to.",
     ),
-    prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
+    name: str = typer.Option(_name, help="Name of the client and schema, expected to be in pascal case."),
 ):
     schema_raw = graphql_schema.read_text()
-    client_name = to_client_name(prefix)
-    schema_name = to_schema_name(prefix)
+    client_name = to_client_name(name)
+    schema_name = to_schema_name(name)
     sdk = to_client_sdk(schema_raw, client_name, schema_name)
     output_dir = (output_dir or graphql_schema.parent).absolute()
     output_dir.mkdir(exist_ok=True)
@@ -98,7 +98,7 @@ def to_gql(
         help="Pydantic schema to convert. Path to a .py file or Python dot notation "
     ),
     graphql_schema: Path = typer.Option(settings.get("local.graphql_schema", ...), help="File path for the output."),
-    prefix: str = typer.Option(_prefix, help="Name prefix for the domain."),
+    name: str = typer.Option(_name, help="Name of the client and schema, expected to be in pascal case."),
 ):
     if str(schema_module).endswith(".py"):
         click.echo(f"Got file {schema_module}, trying to import it...")
@@ -113,7 +113,7 @@ def to_gql(
         module = importlib.import_module(module_name)
     click.echo("Import successful")
 
-    if not _prefix:
+    if not _name:
         click.echo("Searching for a schema...")
         for schema_name, instance in inspect.getmembers(module):
             if isinstance(instance, Schema):
@@ -123,7 +123,7 @@ def to_gql(
             click.echo("Failed to find schema, exiting..")
             exit(1)
     else:
-        schema_name = to_schema_name(prefix)
+        schema_name = to_schema_name(name)
         click.echo(f"Got schema name {schema_name}")
         instance = getattr(module, schema_name)
 
