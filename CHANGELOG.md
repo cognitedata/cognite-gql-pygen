@@ -15,6 +15,10 @@ Changes are grouped as follows
 
 ## [0.4.0] - 26-04-25
 
+### Added
+
+* Support for `pip install -e` for local development.
+
 ### Changed
 
 * In the CLI, all commands are not under one `dm` tool.
@@ -23,6 +27,10 @@ Changes are grouped as follows
 
 * All bash scripts have been removed (under `dm_clinents/bin`).
 * CLI tool `dm_clients` was removed (functions moved to `dm`).
+
+### Fixed
+
+* Added a lock around usages of non-thread-safe cache.
 
 
 ## [0.3.0] - 24-04-23
