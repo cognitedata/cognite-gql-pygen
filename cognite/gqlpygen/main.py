@@ -85,7 +85,7 @@ def to_python(
 @app.command(
     "settings",
     help="Display configuration values from settings.toml, .secrets.toml and/or environment variables."
-         " Meant for troubleshooting. Partially hides value of 'client_secret' for security reasons.",
+    " Meant for troubleshooting. Partially hides value of 'client_secret' for security reasons.",
 )
 def check_settings():
     typer.echo(_hide_pw(settings.get("cognite.client_secret", ""), yaml.safe_dump(settings.as_dict())))
@@ -150,7 +150,7 @@ def signin(
     if client_secret is None:
         if sys.stdin.isatty():
             client_secret = typer.prompt(
-                f"Client secret",
+                "Client secret",
                 default=client_secret_none,
                 type=str,
                 hide_input=True,
@@ -170,7 +170,7 @@ def signin(
         (f"--client-secret='{client_secret}'" if client_secret else "--device-code"),
     ]
     typer.echo(f"Executing:\n{_hide_pw(client_secret, ' '.join(command))}")
-    subprocess.run(' '.join(command), shell=True)
+    subprocess.run(" ".join(command), shell=True)
 
 
 @app.command("upload", help="Upload a GQL schema to CDF DM data model.")
@@ -197,7 +197,7 @@ def upload(
         f"--version='{schema_version}'",
     ]
     typer.echo(f"Executing:\n{' '.join(command)}")
-    subprocess.run(' '.join(command), shell=True)
+    subprocess.run(" ".join(command), shell=True)
 
 
 def main():
