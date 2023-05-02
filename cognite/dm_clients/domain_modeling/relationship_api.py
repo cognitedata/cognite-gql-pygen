@@ -36,9 +36,27 @@ class RelationshipAPI:
         self.schema_version = schema_version
         self.space_id = space_id
 
+    def add(self, attribute: str, start_ext_id: str, end_ext_ids: Iterable[str]) -> None:
+        """
+        Create one or more Edge instances on a particular attribute of the `self.model_type` type of instance.
+        """
+        edge_type_ext_id = f"{self.model_type.__name__}.{attribute}"
+        edges = [
+            Edge(
+                externalId=f"{start_ext_id}.{attribute}__{end_ext_id}",
+                space=self.space_id,
+                version=str(self.schema_version),
+                type=RelationReference(space=self.space_id, externalId=edge_type_ext_id),
+                startNode=RelationReference(space=self.space_id, externalId=start_ext_id),
+                endNode=RelationReference(space=self.space_id, externalId=end_ext_id),
+            )
+            for end_ext_id in end_ext_ids
+        ]
+        self.edges_api.apply(edges)
+
     def apply(self, attribute: str, start_ext_id: str, end_ext_ids: Iterable[str]) -> None:
         """
-        Crete an Edge on a particular attribute of the `self.model_type` type of instance.
+        Crete one or more Edge instances on a particular attribute of the `self.model_type` type of instance.
         Additionally:
          * delete obsolete edges
          * don't create duplicate edges (if some exist from before)

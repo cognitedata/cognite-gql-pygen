@@ -66,6 +66,10 @@ def _upload_data(client: CineClient) -> None:
     )
     client.movie.apply([ragnarok])
 
+    # add a relationship knowing only external_id values (first create another actor):
+    client.person.apply([Person(externalId="person10", name="Tessa Thompson")])
+    client.movie.relationships.add("actors", "movie3", ["person10"])
+
 
 def _main() -> None:
     logging.basicConfig()
