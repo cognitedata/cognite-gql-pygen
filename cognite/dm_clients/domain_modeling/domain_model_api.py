@@ -150,13 +150,14 @@ class DomainModelAPI(Generic[DomainModelT]):
                     # TODO check that it's actually "Optional" and not something else!
                     subitem_type = type_args[0]
 
-                new_subitems: List[DomainModel] = self.domain_client.apply(
-                    [attr_value],
-                    ext_id_prefix=f"{item.externalId}__",
-                )
-                if not new_subitems:
-                    raise ValueError("attr_value empty, but it should have been created just now.")  # keeps mypy happy
-                attr_value = new_subitems[0]
+                if not attr_value._reference:
+                    new_subitems: List[DomainModel] = self.domain_client.apply(
+                        [attr_value],
+                        ext_id_prefix=f"{item.externalId}__",
+                    )
+                    if not new_subitems:
+                        raise ValueError("attr_value empty, but it should have been created just now.")  # keeps mypy happy
+                    attr_value = new_subitems[0]
 
                 # replace nested objects with externalId references:
                 ref_to_subitem = {"space": self.space_id, "externalId": attr_value.externalId}
@@ -186,9 +187,10 @@ class DomainModelAPI(Generic[DomainModelT]):
 
                 # clear the attribute value:
                 setattr(item, attr, None)
-
-                created_subitems = self.domain_client.apply(attr_value, ext_id_prefix=f"{item.externalId}__")
-                for subitem in created_subitems:
+                all_subitems = attr_value
+                full_subitems = [subitem for subitem in all_subitems if not subitem._reference]
+                self.domain_client.apply(full_subitems, ext_id_prefix=f"{item.externalId}__")
+                for subitem in all_subitems:
                     pending_edges[attr].append((attr, item.externalId, subitem.externalId))
         return items, pending_edges
 
