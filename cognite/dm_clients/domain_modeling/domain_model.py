@@ -4,7 +4,7 @@ import logging
 from typing import Dict, Optional, Type, get_args
 
 import strawberry
-from pydantic import Extra, root_validator, PrivateAttr
+from pydantic import Extra, PrivateAttr
 from typing_extensions import Self
 
 from cognite.dm_clients.cdf.data_classes_dm_v3 import DataModelBase
@@ -48,6 +48,10 @@ class DomainModel(DataModelBase):
 
     def as_reference(self) -> Self:
         return type(self)(externalId=self.externalId, _reference=True)
+
+    @classmethod
+    def ref(cls, externalId: str):  # noqa: N803
+        return cls(externalId=externalId, _reference=True)
 
     @classmethod
     def get_one_to_many_attrs(cls) -> Dict[str, Type[DomainModel]]:

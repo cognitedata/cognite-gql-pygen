@@ -56,11 +56,9 @@ def _upload_data(client: CineClient) -> None:
             # Note: we could instead fill all fields instead (just "name" in
             # this example), and the API would update the fields. By using
             # _reference=True, we don't update those field, only create the relations
-            Person(externalId="person5", _reference=True),
-            Person(externalId="person7", _reference=True),
-
+            Person.ref(externalId="person5"),
+            Person.ref(externalId="person7"),
             Person(externalId="person9", name="Cate Blanchett"),
-
         ],
         meta=JSONObject({"run_time": 130}),
     )
@@ -68,7 +66,8 @@ def _upload_data(client: CineClient) -> None:
 
     # add a relationship knowing only external_id values (first create another actor):
     client.person.apply([Person(externalId="person10", name="Tessa Thompson")])
-    client.movie.relationships.add("actors", "movie3", ["person10"])
+    client.movie.connect.actors("movie3", ["person10"])
+    client.movie.connect.foobar("movie3", ["person10"])
 
 
 def _main() -> None:
@@ -78,6 +77,7 @@ def _main() -> None:
     client = get_cine_client()
 
     # _delete_data(client)
+    _upload_data(client)
 
     persons = client.person.list()
     if not persons:
