@@ -137,4 +137,4 @@ class RelationshipProxy:
     def __getattr__(self, item: str) -> ProxyAddRelationshipT:
         if item in self.domain_model_api.domain_model.get_one_to_many_attrs():
             return cast(ProxyAddRelationshipT, partial(self.domain_model_api.relationships.add, item))
-        raise AttributeError(f"'{self.domain_model_api.domain_model.__name__}' has no attribute '{item}'")
+        raise AttributeError(f"'{self.domain_model_api.domain_model.__name__}' model has no attribute '{item}'")

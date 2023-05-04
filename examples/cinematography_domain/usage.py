@@ -67,7 +67,6 @@ def _upload_data(client: CineClient) -> None:
     # add a relationship knowing only external_id values (first create another actor):
     client.person.apply([Person(externalId="person10", name="Tessa Thompson")])
     client.movie.connect.actors("movie3", ["person10"])
-    client.movie.connect.foobar("movie3", ["person10"])
 
 
 def _main() -> None:
@@ -77,7 +76,6 @@ def _main() -> None:
     client = get_cine_client()
 
     # _delete_data(client)
-    _upload_data(client)
 
     persons = client.person.list()
     if not persons:
