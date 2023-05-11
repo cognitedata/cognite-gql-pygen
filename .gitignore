@@ -53,3 +53,4 @@ test-report.xml
 # Ignore dynaconf secret files
 .secrets.*
 tests/test_gqlpygen/tmp
+playground/
