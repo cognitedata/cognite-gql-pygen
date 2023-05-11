@@ -10,3 +10,4 @@ SCHEMAS_DIR = REPO_ROOT / "tests" / "schemas"
 
 class TestSchemas:
     foobar = SCHEMAS_DIR / "foobar.graphql"
+    case_scenario = SCHEMAS_DIR / "case_scenario.graphql"
