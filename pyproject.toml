@@ -55,6 +55,7 @@ python-dotenv = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
+faker = "*"
 
 [tool.pytest.ini_options]
 filterwarnings = [
