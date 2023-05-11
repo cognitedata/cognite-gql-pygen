@@ -25,6 +25,10 @@ Changes are grouped as follows
 
 * Items that are references are now showing this in __repr__ and __str__.
 
+### Added
+
+ * Respect `SETTINGS_FILES_FOR_DYNACONF` env as documented but keep default `settings.toml` and `.secrets.toml`.
+
 
 ## [0.4.4] - 09-05-23
 
