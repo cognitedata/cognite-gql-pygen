@@ -11,12 +11,12 @@ work with Cognite Data Fusion's (CDF) Data Models (DM) in Python.
 project may also become deprecated if the experimentation turns out to be a dead end.
 
 
-The core functionality is to provide a Python client that match a data model. This enables the developer the following
+The core functionality is to provide a Python client that matches a data model. This enables the developer the following
 benefits
 
 * Client side validation of the data before writing it to CDF.
-* Autocompletion matching the data model in the integrated developer environment (IDE). This is important as it enables:
-  * Discoverability of data model through Python.
+* Autocompletion is matching the data model in the integrated developer environment (IDE). This is important as it enables:
+  * Discoverability of a data model through Python.
   * Reduced typing errors in development.
 * Keeping the language domain specific for the developer. Instead of working with generic concepts such as instances,
   nodes, edges, the developer can work with the concepts in the data model.
