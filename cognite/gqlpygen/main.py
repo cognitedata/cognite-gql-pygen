@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Optional
 
 import click
+import toml
 import typer
-import yaml
 from packaging import version
 
 from cognite.dm_clients.config import settings
@@ -92,7 +92,7 @@ def to_python(
     " Meant for troubleshooting. Partially hides value of 'client_secret' for security reasons.",
 )
 def check_settings():
-    typer.echo(_hide_pw(settings.get("cognite.client_secret", ""), yaml.safe_dump(settings.as_dict())))
+    typer.echo(_hide_pw(settings.get("cognite.client_secret", ""), toml.dumps(settings.as_dict())))
 
 
 @app.command("togql", help="Input a pydantic schema to create .graphql schema")

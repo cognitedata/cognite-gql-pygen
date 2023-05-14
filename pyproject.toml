@@ -31,7 +31,6 @@ dm_clients = "cognite.dm_clients.main:main"
 python = "^3.9"
 pydantic = ">=1.10"
 typer = {version = "*", extras = ["all"] }
-PyYAML = "^6.0"
 arrow = "^1.2.2"
 cognite-sdk = {version = ">5.9.0", extras = ["pandas"]}
 msal = ">=1.16.0"
