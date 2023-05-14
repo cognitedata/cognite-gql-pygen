@@ -68,6 +68,9 @@ filterwarnings = [
   "ignore::DeprecationWarning:pkg_resources",  # TODO check again with dynaconf>=3.2.0 (introduced in setuptools==67.5.0)
 ]
 addopts = "--doctest-modules"
+markers = [
+    "full: Requiers all optional dependencies to run.",
+]
 
 
 [build-system]
