@@ -30,19 +30,18 @@ dm_clients = "cognite.dm_clients.main:main"
 [tool.poetry.dependencies]
 python = "^3.9"
 pydantic = ">=1.10"
+graphql-core = ">=3.2"
+Jinja2 = ">=3.1"
+cognite-sdk = {version = ">5.9.0"}
 typer = {version = "*", extras = ["all"] }
 arrow = "^1.2.2"
-cognite-sdk = {version = ">5.9.0", extras = ["pandas"]}
 msal = ">=1.16.0"
-numpy = "^1.23.2"
 strawberry-graphql = "^0.156.4"
 docopt = "^0.6.2"
 cachelib = "^0.10.2"
 retry = "^0.9.2"
 loguru = "^0.6.0"
 dynaconf = "^3.1.12"
-graphql-core = ">=3.2"
-Jinja2 = ">=3.1"
 packaging = ">=21.3"
 typing-extensions = ">=4.4.0"
 
