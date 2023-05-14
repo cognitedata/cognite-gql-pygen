@@ -20,7 +20,13 @@ else:
 
 import dataclasses
 
-from packaging import version
+try:
+    from packaging import version
+except ImportError:
+    _has_packaging = False
+    version = None
+else:
+    _has_packaging = True
 
 from cognite.dm_clients.config import settings
 from cognite.dm_clients.domain_modeling.schema import Schema
@@ -54,7 +60,8 @@ def _check_cdf_cli() -> None:
             err=True,
         )
         sys.exit(1)
-
+    if not _has_packaging:
+        raise ImportError("packaging is required for this feature, install with `pip install cognite-gql-pygen[cli]")
     min_version = version.Version("2.0.0")
     installed_version = version.parse(cdf_version_proc.stdout.decode())
     if installed_version < min_version:
