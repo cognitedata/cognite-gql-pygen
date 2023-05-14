@@ -38,16 +38,19 @@ retry = "^0.9.2"
 strawberry-graphql = "^0.156.4"
 cachelib = "^0.10.2"
 typing-extensions = ">=4.4.0"
+dynaconf = {version="^3.1.12"}
+toml = {version=">=0.10"}
 
-packaging = ">=21.3"
-typer = {version = "*", extras = ["rich"] }
-dynaconf = "^3.1.12"
+packaging = {version=">=21.3", optional=true}
+typer = {version = "*", extras = ["rich"], optional=true }
 
+[tool.poetry.extras]
+cli = ["packaging", "typer"]
+all = ["packaging", "typer"]
 
 [tool.poetry.dev-dependencies]
 twine = "*"
 pre-commit = "*"
-toml = "*"
 python-dotenv = "*"
 pytest = "*"
 pytest-cov = "*"
