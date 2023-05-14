@@ -2176,35 +2176,37 @@ files = [
 
 [[package]]
 name = "strawberry-graphql"
-version = "0.156.4"
+version = "0.177.1"
 description = "A library for creating GraphQL APIs"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "strawberry_graphql-0.156.4-py3-none-any.whl", hash = "sha256:9bafa2854255aa6b30d20dba3c8acb55ee32b8538883abd1e50c9a57c7597c21"},
-    {file = "strawberry_graphql-0.156.4.tar.gz", hash = "sha256:182ff634e3012f0c92a8a44f1d0b137d06f09aa9c56823bcf70f759a9a20857c"},
+    {file = "strawberry_graphql-0.177.1-py3-none-any.whl", hash = "sha256:5f97a28603ca5b2b139cbe1d906f6b2fc6f677b74ec5509caee6de7e8c5760bb"},
+    {file = "strawberry_graphql-0.177.1.tar.gz", hash = "sha256:87e8638cc3f87dfb59bd28a22ba0c2dbbf382c078fec7831cee47a3ce761586a"},
 ]
 
 [package.dependencies]
 graphql-core = ">=3.2.0,<3.3.0"
 python-dateutil = ">=2.7.0,<3.0.0"
-typing_extensions = ">=3.7.4,<5.0.0"
+typing_extensions = ">=4.0.0,<5.0.0"
 
 [package.extras]
 aiohttp = ["aiohttp (>=3.7.4.post0,<4.0.0)"]
-asgi = ["python-multipart (>=0.0.5,<0.0.6)", "starlette (>=0.13.6)"]
+asgi = ["python-multipart (>=0.0.5,<0.0.7)", "starlette (>=0.18.0)"]
 chalice = ["chalice (>=1.22,<2.0)"]
 channels = ["asgiref (>=3.2,<4.0)", "channels (>=3.0.5)"]
 cli = ["click (>=7.0,<9.0)", "libcst (>=0.4.7)", "pygments (>=2.3,<3.0)", "rich (>=12.0.0)"]
 debug = ["libcst (>=0.4.7)", "rich (>=12.0.0)"]
-debug-server = ["click (>=7.0,<9.0)", "libcst (>=0.4.7)", "pygments (>=2.3,<3.0)", "python-multipart (>=0.0.5,<0.0.6)", "rich (>=12.0.0)", "starlette (>=0.13.6)", "uvicorn (>=0.11.6,<0.21.0)"]
+debug-server = ["click (>=7.0,<9.0)", "libcst (>=0.4.7)", "pygments (>=2.3,<3.0)", "python-multipart (>=0.0.5,<0.0.7)", "rich (>=12.0.0)", "starlette (>=0.18.0)", "uvicorn (>=0.11.6,<0.22.0)"]
 django = ["Django (>=3.2)", "asgiref (>=3.2,<4.0)"]
-fastapi = ["fastapi (>=0.65.2)", "python-multipart (>=0.0.5,<0.0.6)"]
+fastapi = ["fastapi (>=0.65.2)", "python-multipart (>=0.0.5,<0.0.7)"]
 flask = ["flask (>=1.1)"]
 opentelemetry = ["opentelemetry-api (<2)", "opentelemetry-sdk (<2)"]
 pydantic = ["pydantic (<2)"]
+pyinstrument = ["pyinstrument (>=4.0.0)"]
 sanic = ["sanic (>=20.12.2)"]
+starlite = ["starlite (>=1.48.0)"]
 
 [[package]]
 name = "tinycss2"
@@ -2469,4 +2471,4 @@ cli = ["packaging", "typer"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "56bc6bf3b5196937e5df3ddc5405578cb26bf243a7b7e6bf0e0bd9e9b541e7c9"
+content-hash = "2d1f0b6f3e58d48be4798f5837a2f18f06dda97fd87d30ac9c896fbb9bfd703f"
