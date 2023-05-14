@@ -18,6 +18,8 @@ except ImportError:
 else:
     _has_typer = True
 
+import dataclasses
+
 from packaging import version
 
 from cognite.dm_clients.config import settings
@@ -88,8 +90,8 @@ if _has_typer:
         output_dir = (output_dir or graphql_schema.parent).absolute()
         output_dir.mkdir(exist_ok=True)
 
-        for name, content in sdk.items():
-            output = output_dir / name
+        for name, content in dataclasses.asdict(sdk).items():
+            output = output_dir / f"{name}.py"
             output.write_text(content)
             with suppress(ValueError):
                 # Will raise a ValueError of output is not relative to cwd.
