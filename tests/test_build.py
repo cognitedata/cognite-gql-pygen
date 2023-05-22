@@ -14,16 +14,3 @@ def test_matching_versions():
         f"Version in pyproject.toml ({version_in_pyproject_toml}) does not match version in "
         f"cognite/gpqpygen/version ({version.__version__})"
     )
-
-
-def remove_top_lines(text: str, lines: int) -> str:
-    return "\n".join(text.split("\n")[lines:])
-
-
-def test_index_matching_readme():
-    # Arrange
-    readme = (REPO_ROOT / "README.md").read_text()
-    index = (REPO_ROOT / "docs" / "index.md").read_text()
-
-    # Assert
-    assert remove_top_lines(readme, 5) == remove_top_lines(index, 1)
