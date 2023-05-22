@@ -13,6 +13,13 @@ Changes are grouped as follows
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
 
+## [0.8.1] - 22-05-23
+
+### Changed
+
+* The package name `cognite-gql-pygen` points to `cognite-pygen`.
+
+
 ## [0.8.0] - 14-05-23
 
 ### Improved
